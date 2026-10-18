@@ -203,50 +203,50 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between p-4 md:p-8 relative">
+<body class="min-h-screen flex flex-col justify-between p-3 sm:p-4 md:p-8 relative">
 
   <!-- THANH CÔNG CỤ TRÊN CÙNG (Nút chọn giao diện màu + Nút Phát nhạc gọn gàng, mặc định rút không giới hạn) -->
-  <div class="max-w-6xl w-full mx-auto flex flex-wrap items-center justify-between gap-4 mb-4 z-30 relative">
+  <div class="max-w-6xl w-full mx-auto flex flex-wrap items-center justify-center sm:justify-between gap-2.5 sm:gap-4 mb-4 z-30 relative">
     <!-- Đổi màu nền như bình thường -->
-    <div class="flex items-center gap-2.5 bg-white/95 px-4 py-2 rounded-full border-2 border-choco shadow-sm">
+    <div class="flex items-center gap-2 sm:gap-2.5 bg-white/95 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full border-2 border-choco shadow-sm">
       <span class="text-xs font-bold mr-1">Màu nền:</span>
-      <button onclick="setTheme('#FFDCE8', this)" title="Hồng phấn đậm ngọt" class="theme-dot w-6 h-6 rounded-full bg-[#FFB8CE] border-2 border-choco ring-2 ring-choco ring-offset-1 hover:scale-110 transition"></button>
-      <button onclick="setTheme('#E0F8F2', this)" title="Xanh Mint" class="theme-dot w-6 h-6 rounded-full bg-mint border-2 border-choco hover:scale-110 transition"></button>
-      <button onclick="setTheme('#FFF7D6', this)" title="Vàng Bơ" class="theme-dot w-6 h-6 rounded-full bg-butter border-2 border-choco hover:scale-110 transition"></button>
-      <button onclick="setTheme('#DFF2F7', this)" title="Baby Blue" class="theme-dot w-6 h-6 rounded-full bg-babyblue border-2 border-choco hover:scale-110 transition"></button>
+      <button onclick="setTheme('#FFDCE8', this)" title="Hồng phấn đậm ngọt" class="theme-dot w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#FFB8CE] border-2 border-choco ring-2 ring-choco ring-offset-1 hover:scale-110 transition"></button>
+      <button onclick="setTheme('#E0F8F2', this)" title="Xanh Mint" class="theme-dot w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-mint border-2 border-choco hover:scale-110 transition"></button>
+      <button onclick="setTheme('#FFF7D6', this)" title="Vàng Bơ" class="theme-dot w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-butter border-2 border-choco hover:scale-110 transition"></button>
+      <button onclick="setTheme('#DFF2F7', this)" title="Baby Blue" class="theme-dot w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-babyblue border-2 border-choco hover:scale-110 transition"></button>
     </div>
 
     <!-- Nút Phát nhạc + Âm thanh (Đã bỏ nút Rút không giới hạn, mặc định rút thoải mái) -->
-    <div class="flex items-center gap-2.5">
-      <button id="bgmToggleBtn" onclick="toggleBackgroundMusic()" class="kawaii-btn bg-pastelpink px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 whitespace-nowrap">
+    <div class="flex items-center gap-2 sm:gap-2.5">
+      <button id="bgmToggleBtn" onclick="toggleBackgroundMusic()" class="kawaii-btn bg-pastelpink px-3.5 sm:px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 whitespace-nowrap">
         🎵 Phát nhạc
       </button>
-      <button id="soundBtn" onclick="toggleSound()" class="kawaii-btn bg-mint px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-1 whitespace-nowrap">
+      <button id="soundBtn" onclick="toggleSound()" class="kawaii-btn bg-mint px-3.5 sm:px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-1 whitespace-nowrap">
         🔊 Âm thanh: Bật
       </button>
     </div>
   </div>
 
   <!-- ==================== TRANG INTRO MỞ ĐẦU ==================== -->
-  <div id="introScreen" class="flex-1 flex items-center justify-center my-auto py-6 z-20 px-2">
-    <div class="kawaii-card max-w-4xl w-full mx-auto px-6 py-8 sm:px-10 md:px-14 md:py-12 text-center relative overflow-hidden bg-white/95">
+  <div id="introScreen" class="flex-1 flex items-center justify-center my-auto py-4 sm:py-6 z-20 px-1 sm:px-2">
+    <div class="kawaii-card max-w-4xl w-full mx-auto px-4 py-7 sm:px-10 sm:py-8 md:px-14 md:py-12 text-center relative overflow-hidden bg-white/95">
       <!-- Trang trí góc -->
       <div class="absolute -top-6 -left-6 w-24 h-24 bg-pastelpink/50 rounded-full blur-md pointer-events-none"></div>
       <div class="absolute -bottom-6 -right-6 w-28 h-28 bg-butter/60 rounded-full blur-md pointer-events-none"></div>
 
       <!-- Các icon lơ lửng đáng yêu -->
-      <div class="flex justify-center items-center gap-3 mb-3">
-        <span class="text-2xl animate-bounce" style="animation-delay: 0.1s;">🌸</span>
-        <span class="inline-block bg-pastelpink px-4 py-1.5 rounded-full border-2 border-choco text-xs font-bold shadow-sm whitespace-nowrap">
+      <div class="flex justify-center items-center gap-1.5 sm:gap-3 mb-3">
+        <span class="text-xl sm:text-2xl animate-bounce" style="animation-delay: 0.1s;">🌸</span>
+        <span class="inline-block bg-pastelpink px-3 sm:px-4 py-1.5 rounded-full border-2 border-choco text-[11px] sm:text-xs font-bold shadow-sm whitespace-nowrap">
           ✨ Thế giới nhỏ dịu dàng chào đón bạn ✨
         </span>
-        <span class="text-2xl animate-bounce" style="animation-delay: 0.3s;">⭐</span>
+        <span class="text-xl sm:text-2xl animate-bounce" style="animation-delay: 0.3s;">⭐</span>
       </div>
 
       <!-- Minh họa nhỏ: Bánh quy kem trên màn hình Intro -->
       <div class="flex justify-center items-center gap-6 my-3">
         <div class="cookie-float">
-          <svg viewBox="0 0 140 120" class="w-28 h-24">
+          <svg viewBox="0 0 140 120" class="w-24 h-20 sm:w-28 sm:h-24">
             <path d="M 70 68 C 60 40, 80 40, 70 68 Z" fill="#D9822B" />
             <path d="M 70 18 C 26 18, 12 62, 34 98 C 44 112, 58 96, 70 64 C 82 96, 96 112, 106 98 C 128 62, 114 18, 70 18 Z"
                   fill="#F8B864" stroke="#4A2525" stroke-width="5" stroke-linejoin="round" />
@@ -261,10 +261,10 @@
         </div>
       </div>
 
-      <!-- Tiêu đề chính bay bổng kiểu Misteri Display Serif kèm họa tiết Sao & Trăng uốn lượn, căn vừa vặn trong khung -->
-      <div class="flex items-center justify-center gap-2 sm:gap-3 my-4 max-w-full overflow-visible">
+      <!-- Tiêu đề chính bay bổng kiểu Misteri Display Serif kèm họa tiết Sao & Trăng uốn lượn, hiển thị đầy đủ trên cả điện thoại lẫn máy tính -->
+      <div class="flex items-center justify-center gap-1 sm:gap-3 my-4 w-full px-1">
         <!-- Họa tiết Sao 8 cánh & nét uốn xoắn ốc bên trái kiểu Misteri -->
-        <svg viewBox="0 0 64 54" class="w-9 h-8 sm:w-12 sm:h-10 flex-shrink-0 text-choco fill-current">
+        <svg viewBox="0 0 64 54" class="w-6 h-5 min-[380px]:w-7 min-[380px]:h-6 sm:w-12 sm:h-10 flex-shrink-0 text-choco fill-current">
           <path d="M22 6 L25 18 L37 21 L25 24 L22 36 L19 24 L7 21 L19 18 Z" fill="#543D46"/>
           <path d="M13 12 L19 19 M31 12 L25 19 M31 30 L25 23 M13 30 L19 23" stroke="#543D46" stroke-width="2" stroke-linecap="round"/>
           <circle cx="38" cy="10" r="2" fill="#FF6B95"/>
@@ -273,7 +273,7 @@
           <path d="M 30 36 C 38 46, 54 44, 60 32 C 63 25, 56 19, 50 24 C 46 28, 51 34, 55 31" fill="none" stroke="#543D46" stroke-width="2.4" stroke-linecap="round"/>
         </svg>
 
-        <h1 class="misteri-title text-2xl sm:text-4xl md:text-[42px] text-choco whitespace-nowrap px-1">
+        <h1 class="misteri-title text-[18px] min-[380px]:text-[20px] min-[420px]:text-[22px] sm:text-4xl md:text-[42px] text-choco whitespace-nowrap px-0.5 sm:px-1">
           <span class="misteri-word-1">Hạnh</span>
           <span class="misteri-word-2">phúc</span>
           <span class="misteri-word-3">ngoài</span>
@@ -282,7 +282,7 @@
         </h1>
 
         <!-- Họa tiết Trăng khuyết & nét uốn xoắn ốc bên phải kiểu Misteri -->
-        <svg viewBox="0 0 64 54" class="w-9 h-8 sm:w-12 sm:h-10 flex-shrink-0 text-choco fill-current">
+        <svg viewBox="0 0 64 54" class="w-6 h-5 min-[380px]:w-7 min-[380px]:h-6 sm:w-12 sm:h-10 flex-shrink-0 text-choco fill-current">
           <!-- Nét uốn lượn xoắn bay bổng từ chữ mẫu ra -->
           <path d="M 4 28 C 10 42, 26 44, 34 34 C 38 28, 33 20, 26 24 C 21 27, 25 34, 30 31" fill="none" stroke="#543D46" stroke-width="2.4" stroke-linecap="round"/>
           <!-- Trăng lưỡi liềm cổ tích + giọt sương -->
@@ -294,14 +294,14 @@
       </div>
 
       <!-- Quote mở đầu: Làm khung to rộng ra để câu nói nằm trọn vẹn bên trong khung nét đứt -->
-      <div class="bg-pinksoft/80 border-2 border-dashed border-choco rounded-3xl py-5 px-6 sm:px-10 mb-7 max-w-3xl w-full mx-auto shadow-inner flex items-center justify-center">
-        <p class="font-hand text-lg sm:text-xl md:text-[25px] text-choco leading-relaxed md:whitespace-nowrap text-center">
+      <div class="bg-pinksoft/80 border-2 border-dashed border-choco rounded-3xl py-4 px-4 sm:py-5 sm:px-10 mb-6 sm:mb-7 max-w-3xl w-full mx-auto shadow-inner flex items-center justify-center">
+        <p class="font-hand text-base sm:text-xl md:text-[25px] text-choco leading-relaxed md:whitespace-nowrap text-center">
           "Chạm vào những điều chưa hoàn hảo, khám phá những niềm vui trọn vẹn."
         </p>
       </div>
 
       <!-- Nút Bắt Đầu -->
-      <button onclick="enterMainApp()" class="kawaii-btn bg-pastelpink hover:bg-pinkdark hover:text-white text-choco font-heading font-bold text-base md:text-lg px-10 py-3.5 rounded-full inline-flex items-center gap-2.5 transition">
+      <button onclick="enterMainApp()" class="kawaii-btn bg-pastelpink hover:bg-pinkdark hover:text-white text-choco font-heading font-bold text-sm sm:text-base md:text-lg px-8 sm:px-10 py-3 sm:py-3.5 rounded-full inline-flex items-center gap-2.5 transition">
         <span>🌸 Bắt đầu ngay</span>
         <span>✨</span>
       </button>
@@ -311,15 +311,15 @@
   <!-- ==================== GIAO DIỆN CHÍNH (Ẩn khi đang ở Intro) ==================== -->
   <div id="mainApp" class="hidden flex-col flex-1 justify-between">
     <!-- Header rộng rãi để các câu nằm gọn trên 1 hàng không bị rớt chữ -->
-    <header class="text-center max-w-6xl w-full mx-auto mb-6 px-2">
-      <div class="inline-flex items-center gap-2 bg-pastelpink px-4 py-1 rounded-full border-2 border-choco text-xs font-bold mb-2 shadow-sm whitespace-nowrap">
+    <header class="text-center max-w-6xl w-full mx-auto mb-5 sm:mb-6 px-1 sm:px-2">
+      <div class="inline-flex items-center gap-2 bg-pastelpink px-3.5 sm:px-4 py-1 rounded-full border-2 border-choco text-[11px] sm:text-xs font-bold mb-2 shadow-sm whitespace-nowrap">
         <span>✨ Góc nhỏ vỗ về tâm hồn ✨</span>
         <button onclick="backToIntro()" class="underline text-[11px] ml-1 hover:text-pinkdark" title="Xem lại trang mở đầu">(Trang mở đầu)</button>
       </div>
 
-      <!-- Tiêu đề chính bay bổng kiểu Misteri với họa tiết Sao & Trăng uốn lượn -->
-      <div class="flex items-center justify-center gap-2 sm:gap-3 mb-2">
-        <svg viewBox="0 0 64 54" class="w-10 h-9 sm:w-14 sm:h-11 flex-shrink-0 text-choco fill-current">
+      <!-- Tiêu đề chính bay bổng kiểu Misteri với họa tiết Sao & Trăng uốn lượn, hiển thị trọn vẹn trên điện thoại -->
+      <div class="flex items-center justify-center gap-1 sm:gap-3 mb-2 w-full px-1">
+        <svg viewBox="0 0 64 54" class="w-6 h-5 min-[380px]:w-7 min-[380px]:h-6 sm:w-14 sm:h-11 flex-shrink-0 text-choco fill-current">
           <path d="M22 6 L25 18 L37 21 L25 24 L22 36 L19 24 L7 21 L19 18 Z" fill="#543D46"/>
           <path d="M13 12 L19 19 M31 12 L25 19 M31 30 L25 23 M13 30 L19 23" stroke="#543D46" stroke-width="2" stroke-linecap="round"/>
           <circle cx="38" cy="10" r="2.2" fill="#FF6B95"/>
@@ -327,7 +327,7 @@
           <path d="M 30 36 C 38 46, 54 44, 60 32 C 63 25, 56 19, 50 24 C 46 28, 51 34, 55 31" fill="none" stroke="#543D46" stroke-width="2.4" stroke-linecap="round"/>
         </svg>
 
-        <h1 class="misteri-title text-2xl sm:text-4xl md:text-5xl text-choco whitespace-nowrap px-1">
+        <h1 class="misteri-title text-[19px] min-[380px]:text-[21px] min-[420px]:text-[24px] sm:text-4xl md:text-5xl text-choco whitespace-nowrap px-0.5 sm:px-1">
           <span class="misteri-word-1">Hạnh</span>
           <span class="misteri-word-2">phúc</span>
           <span class="misteri-word-3">ngoài</span>
@@ -335,7 +335,7 @@
           <span class="misteri-word-5">mẫu</span>
         </h1>
 
-        <svg viewBox="0 0 64 54" class="w-10 h-9 sm:w-14 sm:h-11 flex-shrink-0 text-choco fill-current">
+        <svg viewBox="0 0 64 54" class="w-6 h-5 min-[380px]:w-7 min-[380px]:h-6 sm:w-14 sm:h-11 flex-shrink-0 text-choco fill-current">
           <path d="M 4 28 C 10 42, 26 44, 34 34 C 38 28, 33 20, 26 24 C 21 27, 25 34, 30 31" fill="none" stroke="#543D46" stroke-width="2.4" stroke-linecap="round"/>
           <path d="M 42 8 C 33 12, 32 26, 42 32 C 37 25, 38 14, 42 8 Z" fill="#543D46" stroke="#543D46" stroke-width="1.5" stroke-linejoin="round"/>
           <circle cx="50" cy="14" r="2.2" fill="#FF6B95"/>
@@ -344,10 +344,10 @@
         </svg>
       </div>
 
-      <p class="font-hand text-lg sm:text-xl md:text-2xl text-choco/95 mb-1 md:whitespace-nowrap">
+      <p class="font-hand text-base sm:text-xl md:text-2xl text-choco/95 mb-1 md:whitespace-nowrap px-2">
         "Chạm vào những điều chưa hoàn hảo, khám phá những niềm vui trọn vẹn."
       </p>
-      <p class="text-xs md:text-sm text-choco/80 font-medium lg:whitespace-nowrap">
+      <p class="text-xs md:text-sm text-choco/80 font-medium lg:whitespace-nowrap px-2">
         Không sao cả nếu hôm nay bạn chưa hoàn hảo. Hãy chọn một tâm trạng và nhận tín hiệu dịu dàng dành riêng cho bạn nhé!
       </p>
     </header>
@@ -356,10 +356,10 @@
     <main class="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-7 items-start mb-10">
 
       <!-- CỘT TRÁI (7 phần): BÁNH QUY MAY MẮN PHỦ KEM & MÁY GẮP SAO/THÚ BÔNG CHỒNG CHẤT -->
-      <section class="lg:col-span-7 kawaii-card p-5 sm:p-6 md:p-7 relative overflow-hidden bg-white">
+      <section class="lg:col-span-7 kawaii-card p-4 sm:p-6 md:p-7 relative overflow-hidden bg-white">
         
         <!-- Bộ lọc tâm trạng: Căn vừa vặn cả 5 nút nằm gọn trong khung trắng -->
-        <div class="mb-5">
+        <div class="mb-4 sm:mb-5">
           <p class="text-xs font-bold uppercase tracking-wider text-choco/60 mb-2.5 text-center">Hôm nay lòng bạn thế nào?</p>
           <div class="flex flex-wrap sm:flex-nowrap justify-center gap-1.5 md:gap-2 w-full" id="moodGroup">
             <button onclick="selectMood('all', this)" class="mood-btn kawaii-btn bg-pastelpink px-2.5 md:px-3 py-1.5 rounded-full text-[11px] md:text-xs font-bold whitespace-nowrap">🌈 Tất cả</button>
@@ -370,22 +370,22 @@
           </div>
         </div>
 
-        <!-- Chuyển đổi chế độ chơi -->
-        <div class="flex justify-center gap-3 mb-5">
-          <button id="tabCookie" onclick="switchGame('cookie')" class="kawaii-btn bg-butter px-5 py-2 rounded-2xl font-bold text-sm flex items-center gap-2 whitespace-nowrap">
+        <!-- Chuyển đổi chế độ chơi: Trên điện thoại thu gọn đệm & cỡ chữ để không bị sát khung ngoài, trên máy tính giữ nguyên -->
+        <div class="flex justify-center gap-2 sm:gap-3 mb-4 sm:mb-5 px-1">
+          <button id="tabCookie" onclick="switchGame('cookie')" class="kawaii-btn bg-butter px-3 sm:px-5 py-2 rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap">
             🥠 Đập Bánh Quy Kem
           </button>
-          <button id="tabClaw" onclick="switchGame('claw')" class="kawaii-btn bg-white px-5 py-2 rounded-2xl font-bold text-sm flex items-center gap-2 whitespace-nowrap">
+          <button id="tabClaw" onclick="switchGame('claw')" class="kawaii-btn bg-white px-3 sm:px-5 py-2 rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap">
             🧸 Gắp Sao & Thú Bông
           </button>
         </div>
 
         <!-- KHUNG TƯƠNG TÁC CHÍNH (Có Overlay hiện thông điệp ngay trên màn hình này) -->
-        <div class="relative min-h-[360px] flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-choco/40 bg-pinksoft/35 p-4 overflow-hidden">
+        <div class="relative min-h-[340px] sm:min-h-[360px] flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-choco/40 bg-pinksoft/35 p-3 sm:p-4 overflow-hidden">
 
           <!-- MODE 1: BÁNH QUY MAY MẮN GIỐNG HÌNH MẪU + PHỦ KEM CUTE -->
           <div id="cookieStage" class="flex flex-col items-center justify-center w-full h-full">
-            <div id="cookieWrapper" onclick="openCookie()" class="cursor-pointer select-none relative flex items-center justify-center w-80 h-64 cookie-float" title="Bấm vào bánh quy để mở lời nhắn!">
+            <div id="cookieWrapper" onclick="openCookie()" class="cursor-pointer select-none relative flex items-center justify-center w-64 h-52 sm:w-80 sm:h-64 cookie-float" title="Bấm vào bánh quy để mở lời nhắn!">
               
               <!-- SVG Bánh Quy vẽ theo đúng kiểu dáng hình mẫu (bỏ drop-shadow-md để không bị bóng mờ bên trái) -->
               <svg viewBox="0 0 360 270" class="w-full h-full overflow-visible">
@@ -584,42 +584,42 @@
             </div>
 
             <!-- Bộ nút điều khiển máy gắp -->
-            <div class="flex items-center gap-3 mt-3">
-              <button onclick="stepClaw(-12)" class="kawaii-btn bg-mint px-4 py-2 rounded-xl font-bold text-sm">◀ Qua trái</button>
-              <button onclick="dropClaw()" class="kawaii-btn bg-pastelpink hover:bg-pinkdark hover:text-white px-6 py-2 rounded-xl font-bold text-sm transition">🎯 THẢ CÀNG GẮP!</button>
-              <button onclick="stepClaw(12)" class="kawaii-btn bg-mint px-4 py-2 rounded-xl font-bold text-sm">Qua phải ▶</button>
+            <div class="flex items-center justify-center gap-1.5 sm:gap-3 mt-3 w-full">
+              <button onclick="stepClaw(-12)" class="kawaii-btn bg-mint px-2.5 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap">◀ Qua trái</button>
+              <button onclick="dropClaw()" class="kawaii-btn bg-pastelpink hover:bg-pinkdark hover:text-white px-3.5 sm:px-6 py-2 rounded-xl font-bold text-xs sm:text-sm transition whitespace-nowrap">🎯 THẢ CÀNG GẮP!</button>
+              <button onclick="stepClaw(12)" class="kawaii-btn bg-mint px-2.5 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap">Qua phải ▶</button>
             </div>
           </div>
 
           <!-- THÔNG ĐIỆP HIỆN LÊN NGAY TRÊN MÀN HÌNH BÁNH QUY / MÁY GẮP (IN-PLACE OVERLAY) -->
-          <div id="inPlaceQuoteModal" class="fortune-paper-overlay absolute inset-1.5 bg-white/95 backdrop-blur-sm border-3 border-choco rounded-2xl p-5 flex flex-col justify-between z-40 shadow-xl">
-            <div class="flex items-center justify-between border-b-2 border-dashed border-choco/20 pb-2">
-              <span id="quoteBadge" class="text-xs font-bold bg-butter px-3 py-1 rounded-full border border-choco">
+          <div id="inPlaceQuoteModal" class="fortune-paper-overlay absolute inset-1.5 bg-white/95 backdrop-blur-sm border-3 border-choco rounded-2xl p-4 sm:p-5 flex flex-col justify-between z-40 shadow-xl">
+            <div class="flex items-center justify-between border-b-2 border-dashed border-choco/20 pb-2 gap-2">
+              <span id="quoteBadge" class="text-[11px] sm:text-xs font-bold bg-butter px-2.5 sm:px-3 py-1 rounded-full border border-choco whitespace-nowrap">
                 🥠 Lời nhắn từ chiếc bánh quy
               </span>
-              <button onclick="resetCookieScreen()" class="text-xs font-bold bg-pastelpink/70 hover:bg-pastelpink px-3 py-1 rounded-full border border-choco transition">
+              <button onclick="resetCookieScreen()" class="text-[11px] sm:text-xs font-bold bg-pastelpink/70 hover:bg-pastelpink px-2.5 sm:px-3 py-1 rounded-full border border-choco transition whitespace-nowrap">
                 ✕ Đóng lại
               </button>
             </div>
 
             <!-- Nội dung câu nói -->
-            <div class="my-auto py-3 px-3 text-center">
-              <p id="quoteContent" class="font-hand text-2xl md:text-3xl text-choco leading-relaxed">
+            <div class="my-auto py-2 sm:py-3 px-2 sm:px-3 text-center">
+              <p id="quoteContent" class="font-hand text-xl sm:text-2xl md:text-3xl text-choco leading-relaxed">
                 "Hôm nay bạn không cần phải rực rỡ như pháo hoa, chỉ cần bình yên như ánh đèn vàng nơi góc phố là đủ rồi."
               </p>
             </div>
 
             <!-- Nút tương tác ngay trên tờ giấy -->
             <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t-2 border-dashed border-choco/20">
-              <div class="flex items-center gap-2">
-                <button onclick="likeQuote()" id="heartBtn" class="kawaii-btn bg-pastelpink px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1">
+              <div class="flex items-center gap-1.5 sm:gap-2">
+                <button onclick="likeQuote()" id="heartBtn" class="kawaii-btn bg-pastelpink px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 whitespace-nowrap">
                   💗 Cảm ơn vũ trụ (<span id="heartCount">12</span>)
                 </button>
-                <button onclick="downloadStoryCard()" class="kawaii-btn bg-babyblue px-3 py-1.5 rounded-xl text-xs font-bold">
+                <button onclick="downloadStoryCard()" class="kawaii-btn bg-babyblue px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold whitespace-nowrap">
                   📸 Lưu thiệp 9:16
                 </button>
               </div>
-              <button onclick="drawAnotherImmediately()" class="kawaii-btn bg-mint px-3.5 py-1.5 rounded-xl text-xs font-bold">
+              <button onclick="drawAnotherImmediately()" class="kawaii-btn bg-mint px-3 sm:px-3.5 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold whitespace-nowrap">
                 🔄 Thử thêm lần nữa
               </button>
             </div>
@@ -629,16 +629,16 @@
       </section>
 
       <!-- CỘT PHẢI (5 phần): CHIẾC LỌ ĐỰNG SAO HẠNH PHÚC & GÓC GIẢI TỎA NỖI BUỒN -->
-      <section class="lg:col-span-5 kawaii-card p-5 sm:p-6 md:p-7 bg-white flex flex-col justify-between">
+      <section class="lg:col-span-5 kawaii-card p-4 sm:p-6 md:p-7 bg-white flex flex-col justify-between">
         
         <div>
           <!-- CHIẾC LỌ ĐỰNG SAO THỦY TINH (Giống bản cũ, mỗi niềm vui/tâm sự là một ngôi sao giấy rơi vào lọ) -->
-          <div class="mb-5 bg-pinksoft/40 border-2 border-choco rounded-3xl p-4 sm:p-5 flex flex-col items-center relative overflow-hidden">
+          <div class="mb-5 bg-pinksoft/40 border-2 border-choco rounded-3xl p-3.5 sm:p-5 flex flex-col items-center relative overflow-hidden">
             <div class="flex items-center justify-between gap-2 w-full mb-2 px-1">
               <span class="font-heading font-bold text-xs sm:text-sm flex items-center gap-1 whitespace-nowrap">
                 ✨ Chiếc Lọ Đựng Sao Hạnh Phúc
               </span>
-              <span id="jarCounter" class="text-xs font-bold bg-butter px-3 py-0.5 rounded-full border border-choco whitespace-nowrap flex-shrink-0">
+              <span id="jarCounter" class="text-[11px] sm:text-xs font-bold bg-butter px-2.5 sm:px-3 py-0.5 rounded-full border border-choco whitespace-nowrap flex-shrink-0">
                 0 ngôi sao
               </span>
             </div>
@@ -664,28 +664,28 @@
               </div>
             </div>
 
-            <p id="starPreviewText" class="text-xs font-semibold text-choco/85 text-center bg-white/95 px-4 py-1.5 rounded-2xl border border-choco/40 mt-1.5 w-full leading-snug">
+            <p id="starPreviewText" class="text-xs font-semibold text-choco/85 text-center bg-white/95 px-3 sm:px-4 py-1.5 rounded-2xl border border-choco/40 mt-1.5 w-full leading-snug">
               💡 Chạm vào ngôi sao trong lọ để đọc lời nhắn nhé!
             </p>
           </div>
 
           <!-- Tabs chuyển đổi: Gấp Sao Hạnh Phúc vs Giải Tỏa Nỗi Buồn -->
-          <div class="grid grid-cols-2 gap-2 mb-4 bg-cream p-1.5 rounded-2xl border-2 border-choco">
-            <button id="modeCandyBtn" onclick="switchSoulTab('candy')" class="py-2 px-3 rounded-xl font-bold text-xs transition bg-pastelpink border-2 border-choco shadow-sm whitespace-nowrap">
+          <div class="grid grid-cols-2 gap-1.5 sm:gap-2 mb-4 bg-cream p-1.5 rounded-2xl border-2 border-choco">
+            <button id="modeCandyBtn" onclick="switchSoulTab('candy')" class="py-2 px-2 sm:px-3 rounded-xl font-bold text-[11px] sm:text-xs transition bg-pastelpink border-2 border-choco shadow-sm whitespace-nowrap">
               ⭐ Thả sao & kẹo ngọt
             </button>
-            <button id="modeVentBtn" onclick="switchSoulTab('vent')" class="py-2 px-3 rounded-xl font-bold text-xs transition text-choco/70 hover:text-choco whitespace-nowrap">
+            <button id="modeVentBtn" onclick="switchSoulTab('vent')" class="py-2 px-2 sm:px-3 rounded-xl font-bold text-[11px] sm:text-xs transition text-choco/70 hover:text-choco whitespace-nowrap">
               🌧️ Giải tỏa nỗi buồn
             </button>
           </div>
 
           <!-- Phần nhập Tên & Tùy chọn Bí mật / Công khai -->
           <div class="mb-4 bg-butter/40 p-3.5 rounded-2xl border-2 border-choco">
-            <label class="block text-xs font-bold mb-1.5 whitespace-nowrap">🏷️ Tên ghi trên ngôi sao / viên kẹo của bạn:</label>
+            <label class="block text-xs font-bold mb-1.5 sm:whitespace-nowrap">🏷️ Tên ghi trên ngôi sao / viên kẹo của bạn:</label>
             <input id="userNameInput" type="text" placeholder="Nhập tên hoặc biệt danh của bạn..." 
                    class="w-full px-3 py-2 rounded-xl border-2 border-choco text-sm bg-white focus:outline-none mb-2" />
             
-            <div class="flex items-center gap-4 text-xs font-bold">
+            <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-xs font-bold">
               <label class="flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
                 <input type="radio" name="privacyMode" value="public" checked class="accent-pinkdark" />
                 <span>🌟 Công khai tên</span>
@@ -699,12 +699,12 @@
 
           <!-- TAB 1: THẢ SAO / KẸO HẠNH PHÚC VÀO LỌ -->
           <div id="candySection">
-            <label class="block text-xs font-bold mb-1.5 text-choco whitespace-nowrap">
+            <label class="block text-xs font-bold mb-1.5 text-choco sm:whitespace-nowrap">
               ⭐ Viết một điều nhỏ xíu khiến bạn mỉm cười hôm nay:
             </label>
             <textarea id="candyInput" rows="2" placeholder="Ví dụ: Uống được một ly trà sữa ngon, thấy một chú mèo nằm phơi nắng..."
                       class="w-full p-3 rounded-2xl border-2 border-choco text-sm bg-pinksoft/30 focus:outline-none resize-none mb-3"></textarea>
-            <button onclick="addSweetCandy()" class="w-full kawaii-btn bg-pastelpink hover:bg-pinkdark hover:text-white py-2.5 px-4 rounded-xl font-bold text-xs mb-4 transition whitespace-nowrap">
+            <button onclick="addSweetCandy()" class="w-full kawaii-btn bg-pastelpink hover:bg-pinkdark hover:text-white py-2.5 px-3 sm:px-4 rounded-xl font-bold text-xs mb-4 transition whitespace-nowrap">
               ⭐ Gấp ngôi sao mang tên bạn thả vào lọ
             </button>
           </div>
@@ -712,7 +712,7 @@
           <!-- TAB 2: GIẢI TỎA NỖI BUỒN -->
           <div id="ventSection" class="hidden">
             <div id="ventBoxWrapper" class="mb-3">
-              <label class="block text-xs font-bold mb-1.5 text-choco whitespace-nowrap">
+              <label class="block text-xs font-bold mb-1.5 text-choco sm:whitespace-nowrap">
                 🌧️ Hôm nay có điều gì làm bạn nặng lòng? Hãy trút hết vào đây:
               </label>
               <textarea id="ventInput" rows="2" placeholder="Viết ra nỗi buồn, sự mệt mỏi hay áp lực của bạn..."
@@ -1173,13 +1173,13 @@
       if (tab === 'vent') {
         ventSec.classList.remove('hidden');
         candySec.classList.add('hidden');
-        ventBtn.className = 'py-2 px-3 rounded-xl font-bold text-xs transition bg-babyblue border-2 border-choco shadow-sm';
-        candyBtn.className = 'py-2 px-3 rounded-xl font-bold text-xs transition text-choco/70 hover:text-choco';
+        ventBtn.className = 'py-2 px-2 sm:px-3 rounded-xl font-bold text-[11px] sm:text-xs transition bg-babyblue border-2 border-choco shadow-sm whitespace-nowrap';
+        candyBtn.className = 'py-2 px-2 sm:px-3 rounded-xl font-bold text-[11px] sm:text-xs transition text-choco/70 hover:text-choco whitespace-nowrap';
       } else {
         candySec.classList.remove('hidden');
         ventSec.classList.add('hidden');
-        candyBtn.className = 'py-2 px-3 rounded-xl font-bold text-xs transition bg-pastelpink border-2 border-choco shadow-sm';
-        ventBtn.className = 'py-2 px-3 rounded-xl font-bold text-xs transition text-choco/70 hover:text-choco';
+        candyBtn.className = 'py-2 px-2 sm:px-3 rounded-xl font-bold text-[11px] sm:text-xs transition bg-pastelpink border-2 border-choco shadow-sm whitespace-nowrap';
+        ventBtn.className = 'py-2 px-2 sm:px-3 rounded-xl font-bold text-[11px] sm:text-xs transition text-choco/70 hover:text-choco whitespace-nowrap';
       }
     }
 
