@@ -360,7 +360,7 @@
         
         <!-- Bộ lọc tâm trạng: Căn vừa vặn cả 5 nút nằm gọn trong khung trắng -->
         <div class="mb-4 sm:mb-5">
-          <p class="text-xs font-bold uppercase tracking-wider text-choco/60 mb-2.5 text-center">Hôm nay lòng bạn thế nào?</p>
+          <p class="text-xs font-bold uppercase tracking-wider text-choco/60 mb-2 text-center">Hôm nay lòng bạn thế nào?</p>
           <div class="flex flex-wrap sm:flex-nowrap justify-center gap-1.5 md:gap-2 w-full" id="moodGroup">
             <button onclick="selectMood('all', this)" class="mood-btn kawaii-btn bg-pastelpink px-2.5 md:px-3 py-1.5 rounded-full text-[11px] md:text-xs font-bold whitespace-nowrap">🌈 Tất cả</button>
             <button onclick="selectMood('tired', this)" class="mood-btn kawaii-btn bg-white px-2.5 md:px-3 py-1.5 rounded-full text-[11px] md:text-xs font-bold whitespace-nowrap">😪 Hơi mệt mỏi</button>
@@ -368,6 +368,9 @@
             <button onclick="selectMood('motivation', this)" class="mood-btn kawaii-btn bg-white px-2.5 md:px-3 py-1.5 rounded-full text-[11px] md:text-xs font-bold whitespace-nowrap">🔥 Cần động lực</button>
             <button onclick="selectMood('peace', this)" class="mood-btn kawaii-btn bg-white px-2.5 md:px-3 py-1.5 rounded-full text-[11px] md:text-xs font-bold whitespace-nowrap">🍃 Muốn bình yên</button>
           </div>
+          <p id="moodStatusText" class="text-[11px] font-semibold text-choco/75 text-center mt-2">
+            ✨ Đã làm mới kho lời chúc hôm nay • Đang chọn: 🌈 Tất cả tâm trạng
+          </p>
         </div>
 
         <!-- Chuyển đổi chế độ chơi: Trên điện thoại thu gọn đệm & cỡ chữ để không bị sát khung ngoài, trên máy tính giữ nguyên -->
@@ -594,10 +597,10 @@
           <!-- THÔNG ĐIỆP HIỆN LÊN NGAY TRÊN MÀN HÌNH BÁNH QUY / MÁY GẮP (IN-PLACE OVERLAY) -->
           <div id="inPlaceQuoteModal" class="fortune-paper-overlay absolute inset-1.5 bg-white/95 backdrop-blur-sm border-3 border-choco rounded-2xl p-4 sm:p-5 flex flex-col justify-between z-40 shadow-xl">
             <div class="flex items-center justify-between border-b-2 border-dashed border-choco/20 pb-2 gap-2">
-              <span id="quoteBadge" class="text-[11px] sm:text-xs font-bold bg-butter px-2.5 sm:px-3 py-1 rounded-full border border-choco whitespace-nowrap">
+              <span id="quoteBadge" class="text-[11px] sm:text-xs font-bold bg-butter px-2.5 sm:px-3 py-1 rounded-full border border-choco whitespace-nowrap overflow-hidden text-ellipsis">
                 🥠 Lời nhắn từ chiếc bánh quy
               </span>
-              <button onclick="resetCookieScreen()" class="text-[11px] sm:text-xs font-bold bg-pastelpink/70 hover:bg-pastelpink px-2.5 sm:px-3 py-1 rounded-full border border-choco transition whitespace-nowrap">
+              <button onclick="resetCookieScreen()" class="text-[11px] sm:text-xs font-bold bg-pastelpink/70 hover:bg-pastelpink px-2.5 sm:px-3 py-1 rounded-full border border-choco transition whitespace-nowrap flex-shrink-0">
                 ✕ Đóng lại
               </button>
             </div>
@@ -610,18 +613,23 @@
             </div>
 
             <!-- Nút tương tác ngay trên tờ giấy -->
-            <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t-2 border-dashed border-choco/20">
+            <div class="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2 pt-2 border-t-2 border-dashed border-choco/20">
               <div class="flex items-center gap-1.5 sm:gap-2">
                 <button onclick="likeQuote()" id="heartBtn" class="kawaii-btn bg-pastelpink px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 whitespace-nowrap">
-                  💗 Cảm ơn vũ trụ (<span id="heartCount">12</span>)
+                  💗 Cảm ơn (<span id="heartCount">12</span>)
                 </button>
                 <button onclick="downloadStoryCard()" class="kawaii-btn bg-babyblue px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold whitespace-nowrap">
-                  📸 Lưu thiệp 9:16
+                  📸 Lưu 9:16
                 </button>
               </div>
-              <button onclick="drawAnotherImmediately()" class="kawaii-btn bg-mint px-3 sm:px-3.5 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold whitespace-nowrap">
-                🔄 Thử thêm lần nữa
-              </button>
+              <div class="flex items-center gap-1.5 sm:gap-2">
+                <button onclick="generateNewWishNow()" title="Tạo một lời chúc mới tinh theo đúng tâm trạng đang chọn" class="kawaii-btn bg-butter px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold whitespace-nowrap">
+                  ✨ Tạo lời chúc mới
+                </button>
+                <button onclick="drawAnotherImmediately()" class="kawaii-btn bg-mint px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold whitespace-nowrap">
+                  🔄 Rút tiếp
+                </button>
+              </div>
             </div>
           </div>
 
@@ -632,13 +640,13 @@
       <section class="lg:col-span-5 kawaii-card p-4 sm:p-6 md:p-7 bg-white flex flex-col justify-between">
         
         <div>
-          <!-- CHIẾC LỌ ĐỰNG SAO THỦY TINH (Giống bản cũ, mỗi niềm vui/tâm sự là một ngôi sao giấy rơi vào lọ) -->
+          <!-- CHIẾC LỌ ĐỰNG SAO THỦY TINH (Giống bản cũ, mỗi niềm vui/tâm sự là một ngôi sao giấy rơi vào lọ và lưu mãi mãi) -->
           <div class="mb-5 bg-pinksoft/40 border-2 border-choco rounded-3xl p-3.5 sm:p-5 flex flex-col items-center relative overflow-hidden">
             <div class="flex items-center justify-between gap-2 w-full mb-2 px-1">
               <span class="font-heading font-bold text-xs sm:text-sm flex items-center gap-1 whitespace-nowrap">
                 ✨ Chiếc Lọ Đựng Sao Hạnh Phúc
               </span>
-              <span id="jarCounter" class="text-[11px] sm:text-xs font-bold bg-butter px-2.5 sm:px-3 py-0.5 rounded-full border border-choco whitespace-nowrap flex-shrink-0">
+              <span id="jarCounter" class="text-[11px] sm:text-xs font-bold bg-butter px-2.5 sm:px-3 py-0.5 rounded-full border border-choco whitespace-nowrap flex-shrink-0" title="Tất cả ngôi sao của bạn được lưu giữ vĩnh viễn">
                 0 ngôi sao
               </span>
             </div>
@@ -652,13 +660,13 @@
               </div>
 
               <!-- Thân lọ thủy tinh -->
-              <div class="w-40 h-40 mt-6 rounded-b-[38px] rounded-t-[20px] border-3 border-choco bg-gradient-to-b from-white/80 via-babyblue/20 to-pastelpink/30 relative overflow-hidden shadow-inner flex flex-col justify-end p-2.5">
+              <div class="w-40 h-40 mt-6 rounded-b-[38px] rounded-t-[20px] border-3 border-choco bg-gradient-to-b from-white/80 via-babyblue/20 to-pastelpink/30 relative overflow-hidden shadow-inner flex flex-col justify-end p-2">
                 <!-- Vệt sáng phản chiếu trên mặt kính -->
                 <div class="absolute top-3 left-3 w-2.5 h-24 bg-white/70 rounded-full pointer-events-none"></div>
                 <div class="absolute top-4 right-3 w-1.5 h-12 bg-white/50 rounded-full pointer-events-none"></div>
 
-                <!-- Các ngôi sao giấy xếp chồng trong lọ -->
-                <div id="starJarInside" class="relative w-full h-32 flex flex-wrap-reverse content-start items-center justify-center gap-1 z-10 overflow-hidden pt-2">
+                <!-- Các ngôi sao giấy xếp chồng trong lọ (giữ lại toàn bộ sao của người dùng mãi mãi) -->
+                <div id="starJarInside" class="relative w-full h-32 flex flex-wrap-reverse content-start items-center justify-center gap-1 z-10 overflow-y-auto pt-2">
                   <!-- Render các ngôi sao giấy bằng JS -->
                 </div>
               </div>
@@ -760,24 +768,251 @@
   <canvas id="storyCanvas" width="1080" height="1920" class="hidden"></canvas>
 
   <script>
-    // Danh sách câu nói chữa lành
-    const QUOTES = [
+    // ================= 1. KHO LỜI CHÚC CHỮA LÀNH PHONG PHÚ THEO ĐÚNG TỪNG TÂM TRẠNG =================
+    const MOOD_LABELS = {
+      all: '🌈 Tất cả tâm trạng',
+      tired: '😪 Hơi mệt mỏi',
+      insecure: '🥺 Đang tự ti',
+      motivation: '🔥 Cần động lực',
+      peace: '🍃 Muốn bình yên'
+    };
+
+    const MOOD_BADGES = {
+      tired: '😪 Vỗ về khi bạn hơi mệt mỏi',
+      insecure: '🥺 Ôm bạn khi đang tự ti',
+      motivation: '🔥 Tiếp thêm động lực cho bạn',
+      peace: '🍃 Gửi bạn một khoảng bình yên'
+    };
+
+    const BASE_QUOTES = [
+      // --- 😪 HƠI MỆT MỎI (tired) - 16 câu chuyên sâu vỗ về khi kiệt sức, quá tải ---
       { text: "Hôm nay bạn không cần phải hoàn hảo, chỉ cần dịu dàng với chính mình hơn hôm qua một chút là đủ rồi.", mood: "tired" },
-      { text: "Những chiếc bánh quy hơi méo một chút vẫn ngọt ngào như thường. Bạn cũng vậy, những thiếu sót không làm giảm đi giá trị của bạn.", mood: "insecure" },
       { text: "Nếu mệt quá thì cứ nghỉ chân một lát nhé. Thế giới ngoài kia vẫn quay, và bạn xứng đáng có một khoảng lặng để thở phào.", mood: "tired" },
-      { text: "Đi chậm cũng được, miễn là bạn không bỏ rơi chính mình trên hành trình này.", mood: "motivation" },
+      { text: "Đừng bắt bản thân phải luôn mạnh mẽ. Đôi khi cho phép mình yếu lòng và lười biếng một chút cũng là một dạng dũng cảm.", mood: "tired" },
+      { text: "Pin của điện thoại còn cần lúc sạc đầy, huống chi là trái tim và đôi vai nhỏ bé của bạn. Tối nay hãy ngủ thật sớm nhé!", mood: "tired" },
+      { text: "Hôm nay bạn đã cố gắng rất nhiều rồi, dù có những việc chưa kịp xong cũng không sao cả. Ngày mai mình làm tiếp nhé.", mood: "tired" },
+      { text: "Hãy đặt chiếc ba lô đầy ắp lo toan xuống bên hiên nhà đi. Khoảnh khắc này chỉ dành riêng cho hơi thở nhẹ nhàng của bạn thôi.", mood: "tired" },
+      { text: "Bạn không phải là cỗ máy không biết mệt. Khi đôi mắt đã mỏi và lòng đã chùng xuống, hãy tự thưởng cho mình một cái ôm thật ấm.", mood: "tired" },
+      { text: "Không sao đâu nếu hôm nay năng lượng của bạn chỉ còn 10%. Dùng 10% đó để yêu thương và vỗ về bản thân là tuyệt vời nhất rồi.", mood: "tired" },
+      { text: "Uống một ngụm nước ấm, thả lỏng hai bờ vai đang gồng cứng lại nào. Vất vả cho bạn suốt cả ngày dài rồi.", mood: "tired" },
+      { text: "Có những ngày chỉ riêng việc thức dậy và bước qua hết một ngày đã là một chiến công lớn lao. Tự hào về bạn lắm!", mood: "tired" },
+      { text: "Đừng tự trách mình vì hôm nay làm được ít hơn dự định. Cơ thể bạn đang lên tiếng xin một chút dịu dàng đó thôi.", mood: "tired" },
+      { text: "Mọi áp lực ngoài kia xin hãy dừng lại sau cánh cửa. Đêm nay chúc bạn một giấc ngủ không mộng mị, êm như nằm trên mây bông.", mood: "tired" },
+      { text: "Nếu đôi chân đã mỏi, đừng ngại ngồi xuống ngắm nhìn mây trôi. Nghỉ ngơi không phải là dừng lại, mà là để đi được thật xa.", mood: "tired" },
+      { text: "Gửi đến bạn một chiếc chăn ấm vô hình và một lời thủ thỉ: Mọi chuyện khó khăn nhất của hôm nay đều đã qua rồi.", mood: "tired" },
+      { text: "Hôm nay hãy tạm tắt chế độ 'phải làm hài lòng tất cả mọi người' và bật chế độ 'chăm sóc em bé bên trong mình' lên nhé!", mood: "tired" },
+      { text: "Mệt thì cứ thở dài một tiếng thật sâu, rồi để gió cuốn bớt nặng nề đi. Ngày mai trời lại dịu dàng với bạn thôi.", mood: "tired" },
+
+      // --- 🥺 ĐANG TỰ TI (insecure) - 16 câu chuyên sâu chữa lành sự so sánh, mặc cảm ---
+      { text: "Những chiếc bánh quy hơi méo một chút vẫn ngọt ngào như thường. Bạn cũng vậy, những thiếu sót không làm giảm đi giá trị của bạn.", mood: "insecure" },
       { text: "Không có bông hoa nào nở cùng một lúc, cũng chẳng có khuôn mẫu chung nào cho hạnh phúc của tất cả mọi người.", mood: "insecure" },
-      { text: "Hít vào một hơi thật sâu, thở ra hết những âu lo. Bạn đã làm rất tốt trong khả năng của mình ngày hôm nay rồi.", mood: "peace" },
+      { text: "Bạn là phiên bản giới hạn duy nhất trên thế gian này, đừng tự ép mình vào chiếc khuôn chật hẹp của bất kỳ ai khác.", mood: "insecure" },
+      { text: "Đừng lấy hậu trường lộn xộn của mình để so sánh với thước phim lung linh đã qua chỉnh sửa của người khác nhé.", mood: "insecure" },
+      { text: "Mặt trăng lúc khuyết lúc tròn nhưng chưa bao giờ ngừng tỏa sáng. Bạn dù đang ở giai đoạn nào cũng đều đáng trân quý.", mood: "insecure" },
+      { text: "Hoa hướng dương rực rỡ dưới nắng, còn hoa quỳnh lại tỏa hương giữa đêm khuya. Bạn có mùa nở hoa rực rỡ của riêng mình.", mood: "insecure" },
+      { text: "Những vết xước hay sự vụng về của bạn không phải là điểm yếu, mà là dấu ấn riêng khiến bạn trở nên chân thật và đáng yêu.", mood: "insecure" },
+      { text: "Đừng sợ khi thấy mình đi chậm hơn người khác. Mỗi người có một múi giờ riêng, và đồng hồ của bạn vẫn đang chạy rất đúng nhịp.", mood: "insecure" },
+      { text: "Ngay cả những vì sao trên bầu trời đêm cũng có ngôi tỏ ngôi mờ, nhưng thiếu đi một ngôi sao thì bầu trời chẳng còn trọn vẹn.", mood: "insecure" },
+      { text: "Bạn ấm áp, tử tế và biết lắng nghe hơn bạn nghĩ rất nhiều. Đừng để một vài lời phán xét làm lu mờ ánh sáng trong bạn.", mood: "insecure" },
+      { text: "Cây cổ thụ lớn nào cũng từng là một hạt mầm nhỏ bé nằm im dưới đất tối. Hãy kiên nhẫn và bao dung với sự trưởng thành của mình.", mood: "insecure" },
+      { text: "Không cần phải trở thành người xuất sắc nhất trong mắt đám đông, chỉ cần là một phiên bản chân thành và hạnh phúc của chính bạn.", mood: "insecure" },
+      { text: "Có những điều ở bản thân mà bạn hằng tự ti, thực ra lại là nét duyên dáng dịu dàng trong ánh mắt của những người thương bạn.", mood: "insecure" },
+      { text: "Làm sai một chút cũng không sao, chưa biết nhiều thứ cũng chẳng sao. Chúng mình đều đang vừa đi vừa học cách lớn lên mà.", mood: "insecure" },
+      { text: "Đừng quá khắt khe với người trong gương nhé. Người ấy đã cùng bạn vượt qua biết bao ngày mưa nắng mà chưa từng bỏ cuộc.", mood: "insecure" },
+      { text: "Giá trị của bạn không nằm ở điểm số, thành tích hay lời khen của người ngoài, mà nằm ở trái tim biết yêu thương của chính bạn.", mood: "insecure" },
+
+      // --- 🔥 CẦN ĐỘNG LỰC (motivation) - 16 câu tiếp lửa ấm áp, khích lệ tinh thần ---
+      { text: "Đi chậm cũng được, miễn là bạn không bỏ rơi chính mình trên hành trình này.", mood: "motivation" },
       { text: "Một ngày chưa trọn vẹn không có nghĩa là một cuộc đời thất bại. Ngày mai mặt trời vẫn dịu dàng mọc lên vì bạn.", mood: "motivation" },
-      { text: "Đừng bắt bản thân phải luôn mạnh mẽ. Đôi khi cho phép mình yếu lòng một chút cũng là một dạng dũng cảm.", mood: "tired" },
-      { text: "Bạn là phiên bản giới hạn duy nhất trên thế gian này, đừng tự ép mình vào chiếc khuôn của bất kỳ ai khác.", mood: "insecure" },
-      { text: "Bình yên không phải là nơi không có giông bão, mà là khi lòng bạn biết tự vỗ về mình giữa những ngày mưa.", mood: "peace" }
+      { text: "Mỗi bước chân nhỏ xíu bạn đi hôm nay đều đang âm thầm đưa bạn đến gần hơn với điều kỳ diệu ở phía trước.", mood: "motivation" },
+      { text: "Đừng sợ bắt đầu lại từ đầu. Lần này bạn không còn đi từ con số 0 nữa, mà đi từ những kinh nghiệm quý giá đã góp nhặt được.", mood: "motivation" },
+      { text: "Những hạt giống tốt đẹp bạn gieo xuống bằng sự tử tế và kiên trì chắc chắn sẽ nở thành một khu vườn rực rỡ đúng lúc.", mood: "motivation" },
+      { text: "Bạn mạnh mẽ hơn những thử thách đang đứng trước mặt bạn rất nhiều. Hãy hít sâu một hơi và bước thêm một bước nhỏ nữa thôi!", mood: "motivation" },
+      { text: "Không cần phải nhìn thấy hết cả cầu thang mới dám bước, chỉ cần dũng cảm đặt chân lên bậc đầu tiên ngay hôm nay là đủ.", mood: "motivation" },
+      { text: "Sau những cơn mưa rào tầm tã nhất luôn là bầu trời trong xanh và chiếc cầu vồng dịu ngọt. Cố lên nhé, nắng sắp lên rồi!", mood: "motivation" },
+      { text: "Mọi sự cố gắng thầm lặng của bạn khi không ai nhìn thấy đều được vũ trụ ghi nhận và chuẩn bị đền đáp bằng những món quà xứng đáng.", mood: "motivation" },
+      { text: "Thất bại chỉ là một dấu phẩy giúp câu chuyện của bạn thêm sâu sắc, chứ không bao giờ là dấu chấm hết cho ước mơ của bạn.", mood: "motivation" },
+      { text: "Hôm nay làm tốt hơn hôm qua 1% thôi cũng đã là một kỳ tích đáng ăn mừng rồi. Cứ bền bỉ tiến về phía trước nhé!", mood: "motivation" },
+      { text: "Đừng để nỗi sợ cản bước đôi chân muốn khám phá của bạn. Điều tuyệt vời nhất thường nằm ngay phía bên kia sự rụt rè.", mood: "motivation" },
+      { text: "Bạn đã từng vượt qua 100% những ngày khó khăn nhất trong quá khứ, và lần này chắc chắn bạn cũng sẽ làm được thật rực rỡ!", mood: "motivation" },
+      { text: "Hãy tin vào trực giác và đôi bàn tay của chính mình. Bạn hoàn toàn xứng đáng chạm tới những ước mơ đẹp đẽ nhất.", mood: "motivation" },
+      { text: "Dù con đường có hơi quanh co một chút, nhưng cảnh đẹp dọc đường và bản lĩnh bạn rèn được sẽ vô cùng xứng đáng.", mood: "motivation" },
+      { text: "Cứ ước mơ thật ngọt ngào và hành động từ những điều nhỏ nhất hôm nay. Vũ trụ luôn mỉm cười ủng hộ những trái tim kiên định!", mood: "motivation" },
+
+      // --- 🍃 MUỐN BÌNH YÊN (peace) - 16 câu an nhiên, tĩnh lặng, vỗ về tâm hồn ---
+      { text: "Hít vào một hơi thật sâu, thở ra hết những âu lo. Bạn đã làm rất tốt trong khả năng của mình ngày hôm nay rồi.", mood: "peace" },
+      { text: "Bình yên không phải là nơi không có giông bão, mà là khi lòng bạn biết tự vỗ về mình giữa những ngày mưa.", mood: "peace" },
+      { text: "Chúc tâm hồn bạn hôm nay nhẹ tênh như đám mây trắng đầu ngày, chẳng vướng bận điều gì đã qua hay điều gì chưa tới.", mood: "peace" },
+      { text: "Hãy cho phép mình tận hưởng những niềm vui giản dị: một tách trà thơm, một bản nhạc êm và một buổi chiều không vội vã.", mood: "peace" },
+      { text: "Những gì thuộc về bạn sẽ tự khắc tìm đường đến bên bạn một cách dịu dàng nhất. Hãy cứ thả lỏng và an nhiên đón nhận nhé.", mood: "peace" },
+      { text: "Đôi khi hạnh phúc chỉ đơn giản là ngồi yên nhìn nắng xuyên qua kẽ lá và thấy lòng mình không còn dậy sóng.", mood: "peace" },
+      { text: "Buông bớt một chút kỳ vọng khắt khe, bạn sẽ thấy cuộc sống quanh mình bỗng nhiên rộng rãi và dịu ngọt biết bao.", mood: "peace" },
+      { text: "Gửi đến bạn một làn gió mát lành thổi tan mọi muộn phiền. Ngay giây phút này, bạn đang an toàn và được yêu thương.", mood: "peace" },
+      { text: "Đừng vội vã chạy theo nhịp sống hối hả ngoài kia. Giữ cho mình một góc nhỏ tĩnh lặng trong tim là món quà quý giá nhất.", mood: "peace" },
+      { text: "Chuyện của ngày hôm qua đã khép lại, chuyện của ngày mai để ngày mai tính. Hôm nay chỉ cần bình an trọn vẹn trong từng hơi thở.", mood: "peace" },
+      { text: "Mong bạn luôn giữ được sự mềm mại và trong trẻo trong tâm hồn, như mặt hồ phẳng lặng phản chiếu ánh trăng dịu hiền.", mood: "peace" },
+      { text: "Không cần phải đi đâu thật xa mới tìm thấy bình yên; bình yên nở hoa ngay khoảnh khắc bạn mỉm cười bao dung với chính mình.", mood: "peace" },
+      { text: "Lắng nghe tiếng nhạc dịu êm, nhắm mắt lại vài giây và cảm nhận nhịp đập bình yên trong lồng ngực mình nhé.", mood: "peace" },
+      { text: "Mọi sự sắp đặt trong cuộc đời đều có lý do dịu dàng của riêng nó. Hãy cứ tin tưởng và bước đi với tâm thế thảnh thơi.", mood: "peace" },
+      { text: "Chúc cho những ngày sắp tới của bạn ngập tràn nắng ấm, hương hoa và những cuộc gặp gỡ mang lại cảm giác bình an.", mood: "peace" },
+      { text: "Giữa thế giới ồn ào vội vã, chúc bạn luôn có một khoảng trời riêng êm ả để quay về nương náu mỗi khi chiều xuống.", mood: "peace" }
     ];
+
+    // ================= 2. HỆ THỐNG TỰ ĐỘNG TẠO LỜI CHÚC MỚI MỖI NGÀY & TẠO THEO YÊU CẦU =================
+    const DAILY_WISH_PARTS = {
+      tired: {
+        openings: [
+          "Tín hiệu dịu dàng của ngày mới nhắn rằng:",
+          "Gửi chiếc ôm ấm áp cho ngày bạn thấm mệt:",
+          "Lời thủ thỉ chữa lành dành riêng cho bạn hôm nay:",
+          "Góc nhỏ ngọt ngào xin nhắn với đôi vai đang mỏi của bạn:",
+          "Hôm nay nếu lòng có chút nặng trĩu, hãy nhớ rằng:",
+          "Một chiếc bánh quy kem ngọt ngào nhắc bạn hôm nay:"
+        ],
+        middles: [
+          "bạn không cần phải gồng mình chạy thật nhanh khi cơ thể đang cần một khoảng nghỉ",
+          "mọi vất vả bạn đã âm thầm gánh vác đều xứng đáng được đổi lại bằng sự thư giãn trọn vẹn",
+          "cho phép bản thân chậm lại một nhịp, uống một ngụm nước ấm và thở phào thật nhẹ",
+          "những việc chưa kịp hoàn thành hôm nay cứ tạm gác lại, sức khỏe và nụ cười của bạn mới là điều quý giá nhất",
+          "ngay cả bầu trời cũng có lúc nghỉ ngơi sau cơn mưa, bạn cũng có quyền được dựa vào sự dịu dàng",
+          "đừng trách mình nếu hôm nay chỉ muốn nằm yên nghe một bản nhạc êm"
+        ],
+        closings: [
+          "Tối nay hãy ngủ một giấc thật sâu để nạp lại năng lượng ấm áp nhé! 🌙",
+          "Thế giới ở đây luôn dịu dàng chờ bạn nghỉ chân. 🌸",
+          "Cảm ơn bạn vì đã kiên cường đi qua ngày hôm nay thật trọn vẹn! 💗",
+          "Mong mọi mệt mỏi sẽ tan biến ngay khi bạn mỉm cười! ✨",
+          "Hãy thương lấy chính mình thật nhiều trong hôm nay nhé! 🧸"
+        ]
+      },
+      insecure: {
+        openings: [
+          "Thông điệp lấp lánh của ngày hôm nay nhắc bạn:",
+          "Gửi đến tâm hồn đáng yêu đang có chút ngập ngừng:",
+          "Lời nhắn từ vũ trụ dịu dàng dành cho bạn hôm nay:",
+          "Hôm nay đừng quên nhìn vào gương và mỉm cười, bởi vì:",
+          "Một viên kẹo ngọt ngào hôm nay muốn nói với bạn rằng:",
+          "Nếu hôm nay bạn lỡ hoài nghi về bản thân, hãy nhớ:"
+        ],
+        middles: [
+          "bạn là một bản nhạc độc nhất vô nhị, không cần phải giống giai điệu của bất kỳ ai khác",
+          "những điều chưa hoàn hảo ở hiện tại chính là nét duyên riêng biệt khiến bạn trở nên thật đặc biệt",
+          "mỗi bông hoa đều có thời khắc bung nở của riêng mình, đừng vội so sánh mùa xuân của bạn với người khác",
+          "sự chân thành và ấm áp bên trong bạn đã là một món quà tuyệt vời cho thế giới này rồi",
+          "bạn đã trưởng thành hơn chính mình của những tháng ngày trước rất nhiều mà có thể bạn chưa nhận ra",
+          "không có thước đo nào định nghĩa được hết vẻ đẹp và giá trị tiềm ẩn trong trái tim bạn"
+        ],
+        closings: [
+          "Hãy tự tin tỏa sáng theo cách dịu dàng nhất của riêng bạn nhé! 🌟",
+          "Bạn xứng đáng nhận được thật nhiều yêu thương và trân trọng! 💖",
+          "Đừng ép mình vào khuôn mẫu nào cả, cứ là chính bạn thật tự do nhé! 🦋",
+          "Vũ trụ luôn tự hào về phiên bản duy nhất là bạn! ✨",
+          "Ôm lấy những điều chưa hoàn hảo của mình bằng ánh mắt trìu mến nhé! 🌸"
+        ]
+      },
+      motivation: {
+        openings: [
+          "Nguồn năng lượng ấm áp của ngày hôm nay gửi bạn:",
+          "Tiếp thêm một chút lửa hồng cho hành trình của bạn hôm nay:",
+          "Lời cổ vũ ngọt ngào dành riêng cho bạn trong ngày mới:",
+          "Hôm nay hãy vững tin bước tiếp nhé, bởi vì:",
+          "Tín hiệu may mắn từ chiếc bánh quy hôm nay báo rằng:",
+          "Dành tặng trái tim đang ấp ủ nhiều dự định của bạn:"
+        ],
+        middles: [
+          "từng bước chân kiên trì dù nhỏ bé nhất hôm nay đều đang xây nên kỳ tích cho ngày mai",
+          "những hạt mầm nỗ lực bạn gieo xuống đang âm thầm đâm chồi dưới lớp đất ấm chờ ngày tỏa hương",
+          "khó khăn hiện tại chỉ là bước đệm để bạn khám phá ra sức mạnh phi thường bên trong mình",
+          "chỉ cần bạn không từ bỏ, mỗi ngày mới đều mở ra hàng ngàn cơ hội tươi sáng đón chờ bạn",
+          "mọi giọt mồ hôi và sự cố gắng thầm lặng của bạn chắc chắn sẽ được đền đáp thật ngọt ngào",
+          "bạn hoàn toàn có đủ bản lĩnh và sự thông thái để vượt qua thử thách này một cách rực rỡ"
+        ],
+        closings: [
+          "Cứ tiến lên từng chút một nhé, điều tuyệt vời nhất đang đợi bạn phía trước! 🔥",
+          "Chúc bạn một ngày tràn đầy cảm hứng và những bước tiến thật vui! 🌈",
+          "Tin tưởng vào bản thân mình nhé, bạn làm được mà! ⭐",
+          "May mắn và thành công đang mỉm cười vẫy gọi bạn đó! ✨",
+          "Hãy biến ngày hôm nay thành một trang nhật ký thật đáng nhớ nhé! 🚀"
+        ]
+      },
+      peace: {
+        openings: [
+          "Làn gió bình yên của ngày hôm nay khẽ nhắn:",
+          "Gửi một khoảng trời trong trẻo đến tâm hồn bạn hôm nay:",
+          "Lời chúc an nhiên dành riêng cho bạn trong khoảnh khắc này:",
+          "Hôm nay hãy hít một hơi thật sâu và cảm nhận nhé:",
+          "Tách trà ấm của ngày mới gửi đến bạn lời nhắn:",
+          "Giữa nhịp sống vội vã hôm nay, chúc cho lòng bạn:"
+        ],
+        middles: [
+          "luôn giữ được sự tĩnh lặng êm đềm như mặt hồ mùa thu không một gợn sóng",
+          "buông xuống được những bận lòng không đáng có để đón nhận ánh nắng ấm áp vào tim",
+          "tìm thấy niềm vui trọn vẹn trong những điều bình dị nhất đang hiện diện quanh mình",
+          "mọi muộn phiền đều nhẹ nhàng tan vào mây trắng, nhường chỗ cho sự thư thái ngập tràn",
+          "tâm trí được thảnh thơi nghỉ ngơi giữa hương hoa dịu ngọt và giai điệu êm ái",
+          "cảm nhận được sự an toàn, đủ đầy và dịu dàng trong từng nhịp thở của hiện tại"
+        ],
+        closings: [
+          "Chúc bạn một ngày bình yên từ trong tâm tưởng đến từng bước chân! 🍃",
+          "Mong mọi điều đến với bạn hôm nay đều nhẹ nhàng như nắng sớm! ☀️",
+          "Bình an luôn ở ngay trong chính trái tim ấm áp của bạn! 🕊️",
+          "Hãy tận hưởng trọn vẹn sự tĩnh lặng ngọt ngào này nhé! 🌸",
+          "Chúc tâm hồn bạn luôn mềm mại, thảnh thơi và ngập tràn ánh sáng! ✨"
+        ]
+      }
+    };
+
+    function getTodayDateString() {
+      const now = new Date();
+      const d = String(now.getDate()).padStart(2, '0');
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      const y = now.getFullYear();
+      return `${d}/${m}/${y}`;
+    }
+
+    function getTodaySeed() {
+      const now = new Date();
+      return now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
+    }
+
+    // Tự động sinh bộ lời chúc mới mỗi ngày dựa theo ngày tháng thực tế + lưu lại lời chúc mới người dùng tạo
+    function getDailyAndCustomQuotes() {
+      const seed = getTodaySeed();
+      const todayStr = getTodayDateString();
+      const dailyQuotes = [];
+
+      ['tired', 'insecure', 'motivation', 'peace'].forEach((mood, mIdx) => {
+        const parts = DAILY_WISH_PARTS[mood];
+        // Mỗi ngày tự động kết hợp tạo ra 4 câu chúc mới tinh cho mỗi tâm trạng (tổng 16 câu mới mỗi ngày)
+        for (let i = 0; i < 4; i++) {
+          const oIdx = (seed + mIdx * 7 + i * 3) % parts.openings.length;
+          const midIdx = (seed * 3 + mIdx * 11 + i * 5) % parts.middles.length;
+          const cIdx = (seed * 7 + mIdx * 13 + i * 2) % parts.closings.length;
+          dailyQuotes.push({
+            text: `${parts.openings[oIdx]} ${parts.middles[midIdx]}. ${parts.closings[cIdx]}`,
+            mood: mood,
+            isDaily: true,
+            date: todayStr
+          });
+        }
+      });
+
+      // Lấy thêm các lời chúc mới do người dùng bấm "Tạo lời chúc mới" đã lưu
+      let savedCustom = [];
+      try {
+        const raw = localStorage.getItem('the_soft_site_custom_wishes_v1');
+        if (raw) savedCustom = JSON.parse(raw);
+      } catch (e) {}
+
+      return [...dailyQuotes, ...savedCustom, ...BASE_QUOTES];
+    }
 
     const COMFORT_MESSAGES = [
       "🌬️ Nỗi buồn của bạn đã được gió cuốn lên những đám mây mềm rồi. Ôm bạn một cái thật chặt nhé, mọi chuyện rồi sẽ nhẹ nhàng hơn thôi!",
       "🫂 Cảm ơn bạn đã dũng cảm nói ra điều làm mình nặng lòng. Hôm nay vất vả cho bạn nhiều rồi, tối nay nhớ ngủ thật ngon nhé!",
-      "🌈 Sau cơn mưa trời lại sáng, những cảm xúc tiêu cực rồi cũng sẽ trôi qua. Bạn không hề cô đơn đâu!"
+      "🌈 Sau cơn mưa trời lại sáng, những cảm xúc tiêu cực rồi cũng sẽ trôi qua. Bạn không hề cô đơn đâu!",
+      "🍃 Hãy thở phào một hơi thật nhẹ nhé. Bạn đã trút bớt được một gánh nặng rồi, từ giờ chỉ đón nhận những điều dịu dàng thôi nha!",
+      "💗 Góc nhỏ này luôn lắng nghe bạn vô điều kiện. Dù hôm nay có ra sao, bạn vẫn luôn xứng đáng được yêu thương thật nhiều!"
     ];
 
     // Danh sách rất nhiều icon đáng yêu cho Máy Gắp Sao & Thú Bông chồng chất (không để tên)
@@ -791,31 +1026,214 @@
 
     let plushPileData = [];
     let currentMood = 'all';
-    let currentQuote = QUOTES[0];
+    let currentQuote = BASE_QUOTES[0];
     let soundEnabled = true;
     let clawPosition = 44;
+    let customGenCounter = 0;
+
+    // Bộ bài xào ngẫu nhiên không lặp lại theo từng tâm trạng (Deck Shuffle)
+    const quoteDecks = {};
+
+    function getShuffledPoolForMood(mood) {
+      const allQuotes = getDailyAndCustomQuotes();
+      const filtered = mood === 'all' ? allQuotes : allQuotes.filter(q => q.mood === mood);
+      const copy = [...filtered];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    // Rút lời chúc đảm bảo 100% đúng tâm trạng người dùng chọn và không bị lặp lại câu vừa rút
+    function pickRandomQuote() {
+      const targetMood = currentMood;
+      if (!quoteDecks[targetMood] || quoteDecks[targetMood].length === 0) {
+        quoteDecks[targetMood] = getShuffledPoolForMood(targetMood);
+      }
+      let nextQuote = quoteDecks[targetMood].pop();
+      if (currentQuote && nextQuote && nextQuote.text === currentQuote.text && quoteDecks[targetMood].length > 0) {
+        const altQuote = quoteDecks[targetMood].pop();
+        quoteDecks[targetMood].unshift(nextQuote);
+        nextQuote = altQuote;
+      }
+      return nextQuote;
+    }
+
+    // Tạo ngay một lời chúc mới tinh theo đúng tâm trạng đang chọn
+    function generateNewWishNow() {
+      const activeMood = currentMood === 'all'
+        ? ['tired', 'insecure', 'motivation', 'peace'][Math.floor(Math.random() * 4)]
+        : currentMood;
+
+      const parts = DAILY_WISH_PARTS[activeMood];
+      customGenCounter++;
+      const randO = Math.floor(Math.random() * parts.openings.length);
+      const randM = Math.floor(Math.random() * parts.middles.length);
+      const randC = Math.floor(Math.random() * parts.closings.length);
+
+      const newWish = {
+        text: `${parts.openings[randO]} ${parts.middles[randM]}. ${parts.closings[randC]}`,
+        mood: activeMood,
+        isDaily: true,
+        date: getTodayDateString()
+      };
+
+      // Lưu lời chúc mới tạo vào bộ nhớ để phong phú thêm kho lời chúc
+      try {
+        const raw = localStorage.getItem('the_soft_site_custom_wishes_v1');
+        const list = raw ? JSON.parse(raw) : [];
+        if (!list.some(item => item.text === newWish.text)) {
+          list.unshift(newWish);
+          localStorage.setItem('the_soft_site_custom_wishes_v1', JSON.stringify(list.slice(0, 200)));
+        }
+      } catch (e) {}
+
+      currentQuote = newWish;
+      const badgeLabel = `✨ Lời chúc mới (${MOOD_LABELS[activeMood]})`;
+      showInPlaceQuote(badgeLabel, currentQuote.text);
+    }
+
+    // ================= 3. LƯU TRỮ VĨNH VIỄN LỌ ĐỰNG SAO CỦA NGƯỜI DÙNG (KHÔNG BAO GIỜ XÓA) =================
+    const PERMANENT_STORAGE_KEY = 'the_soft_site_stars_permanent_v1';
+    const LEGACY_STORAGE_KEYS = [
+      'imperfect_world_items_v4',
+      'imperfect_world_items_v3',
+      'imperfect_world_items_v2',
+      'imperfect_world_items_v1',
+      'imperfect_world_items'
+    ];
 
     // Dữ liệu mẫu ban đầu cho Lọ Đựng Sao & Góc Đồng Cảm
     const defaultItems = [
-      { type: 'candy', author: 'Mây Nhỏ', isSecret: false, content: 'Sáng nay đi làm thấy cô bán xôi cười tươi lắm, tự nhiên thấy yêu đời hẳn!', hugs: 6, color: '#FFB8CE' },
-      { type: 'candy', author: 'Bé Đậu', isSecret: false, content: 'Hôm nay bầu trời màu hồng tím lúc hoàng hôn siêu đẹp luôn!', hugs: 8, color: '#FFF3B0' },
-      { type: 'vent', author: 'Bí mật (L***)', isSecret: true, content: 'Hôm nay mình làm sai một việc ở chỗ làm, hơi buồn nhưng mình sẽ cố gắng sửa lại vào ngày mai.', hugs: 11, color: '#AED9E0' },
-      { type: 'candy', author: 'Trà Sữa Ít Đường', isSecret: false, content: 'Tự thưởng cho bản thân một chiếc bánh ngọt sau một tuần chạy deadline.', hugs: 5, color: '#B8F2E6' },
-      { type: 'candy', author: 'Một tâm hồn ẩn danh', isSecret: true, content: 'Cảm ơn vì một góc nhỏ ấm áp để mình biết mình không cô đơn.', hugs: 14, color: '#E2C6FF' }
+      { id: 'default_1', type: 'candy', author: 'Mây Nhỏ', isSecret: false, content: 'Sáng nay đi làm thấy cô bán xôi cười tươi lắm, tự nhiên thấy yêu đời hẳn!', hugs: 6, color: '#FFB8CE' },
+      { id: 'default_2', type: 'candy', author: 'Bé Đậu', isSecret: false, content: 'Hôm nay bầu trời màu hồng tím lúc hoàng hôn siêu đẹp luôn!', hugs: 8, color: '#FFF3B0' },
+      { id: 'default_3', type: 'vent', author: 'Bí mật (L***)', isSecret: true, content: 'Hôm nay mình làm sai một việc ở chỗ làm, hơi buồn nhưng mình sẽ cố gắng sửa lại vào ngày mai.', hugs: 11, color: '#AED9E0' },
+      { id: 'default_4', type: 'candy', author: 'Trà Sữa Ít Đường', isSecret: false, content: 'Tự thưởng cho bản thân một chiếc bánh ngọt sau một tuần chạy deadline.', hugs: 5, color: '#B8F2E6' },
+      { id: 'default_5', type: 'candy', author: 'Một tâm hồn ẩn danh', isSecret: true, content: 'Cảm ơn vì một góc nhỏ ấm áp để mình biết mình không cô đơn.', hugs: 14, color: '#E2C6FF' }
     ];
 
     const STAR_COLORS = ['#FFB8CE', '#FFF3B0', '#B8F2E6', '#AED9E0', '#E2C6FF', '#FFC8A2'];
 
+    // Sao lưu dự phòng vào IndexedDB để không bao giờ mất sao của người dùng
+    function saveBackupToIndexedDB(items) {
+      try {
+        if (!window.indexedDB) return;
+        const req = window.indexedDB.open('TheSoftSitePermanentDB', 1);
+        req.onupgradeneeded = function(e) {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains('starJarStore')) {
+            db.createObjectStore('starJarStore');
+          }
+        };
+        req.onsuccess = function(e) {
+          const db = e.target.result;
+          const tx = db.transaction('starJarStore', 'readwrite');
+          tx.objectStore('starJarStore').put(items, 'all_user_stars');
+        };
+      } catch (e) {}
+    }
+
+    function restoreFromIndexedDBIfNeeded() {
+      try {
+        if (!window.indexedDB) return;
+        const req = window.indexedDB.open('TheSoftSitePermanentDB', 1);
+        req.onupgradeneeded = function(e) {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains('starJarStore')) {
+            db.createObjectStore('starJarStore');
+          }
+        };
+        req.onsuccess = function(e) {
+          const db = e.target.result;
+          const tx = db.transaction('starJarStore', 'readonly');
+          const getReq = tx.objectStore('starJarStore').get('all_user_stars');
+          getReq.onsuccess = function() {
+            const idbItems = getReq.result;
+            if (Array.isArray(idbItems) && idbItems.length > 0) {
+              const currentLocal = getStoredItems();
+              if (idbItems.length > currentLocal.length) {
+                const merged = mergeUniqueStarLists([idbItems, currentLocal]);
+                saveStoredItems(merged);
+                renderSharedItems(false);
+              } else {
+                saveBackupToIndexedDB(currentLocal);
+              }
+            } else {
+              saveBackupToIndexedDB(getStoredItems());
+            }
+          };
+        };
+      } catch (e) {}
+    }
+
+    function mergeUniqueStarLists(lists) {
+      const seen = new Set();
+      const result = [];
+      lists.forEach(list => {
+        if (!Array.isArray(list)) return;
+        list.forEach(item => {
+          if (!item || !item.content) return;
+          const key = `${item.type || 'candy'}|${item.author || ''}|${item.content.trim()}`;
+          if (!seen.has(key)) {
+            seen.add(key);
+            result.push(item);
+          }
+        });
+      });
+      return result;
+    }
+
+    // Tự động gộp tất cả các ngôi sao từ mọi phiên bản cũ + mới để không bao giờ mất sao của người dùng
     function getStoredItems() {
-      const saved = localStorage.getItem('imperfect_world_items_v4');
-      return saved ? JSON.parse(saved) : defaultItems;
+      const collectedLists = [];
+      try {
+        const permRaw = localStorage.getItem(PERMANENT_STORAGE_KEY);
+        if (permRaw) collectedLists.push(JSON.parse(permRaw));
+      } catch (e) {}
+
+      LEGACY_STORAGE_KEYS.forEach(k => {
+        try {
+          const raw = localStorage.getItem(k);
+          if (raw) collectedLists.push(JSON.parse(raw));
+        } catch (e) {}
+      });
+
+      collectedLists.push(defaultItems);
+      const merged = mergeUniqueStarLists(collectedLists);
+
+      try {
+        localStorage.setItem(PERMANENT_STORAGE_KEY, JSON.stringify(merged));
+        localStorage.setItem('imperfect_world_items_v4', JSON.stringify(merged));
+      } catch (e) {}
+
+      return merged;
     }
 
     function saveStoredItems(items) {
-      localStorage.setItem('imperfect_world_items_v4', JSON.stringify(items));
+      try {
+        localStorage.setItem(PERMANENT_STORAGE_KEY, JSON.stringify(items));
+        localStorage.setItem('imperfect_world_items_v4', JSON.stringify(items));
+      } catch (e) {}
+      saveBackupToIndexedDB(items);
     }
 
-    // ================= HỆ THỐNG PHÁT NHẠC NỀN WHIMSICAL ("I Used To Run Away") =================
+    // Lưu tên người dùng để lần sau vào lại vẫn giữ nguyên
+    function initSavedUserName() {
+      const nameInput = document.getElementById('userNameInput');
+      if (!nameInput) return;
+      try {
+        const savedName = localStorage.getItem('the_soft_site_user_name');
+        if (savedName) nameInput.value = savedName;
+        nameInput.addEventListener('input', () => {
+          try {
+            localStorage.setItem('the_soft_site_user_name', nameInput.value);
+          } catch (e) {}
+        });
+      } catch (e) {}
+    }
+
+    // ================= 4. HỆ THỐNG PHÁT NHẠC NỀN WHIMSICAL ("I Used To Run Away") =================
     let bgmPlaying = false;
     let bgmInterval = null;
     let bgmAudioCtx = null;
@@ -991,6 +1409,13 @@
       }
     }
 
+    function updateMoodStatusDisplay() {
+      const statusEl = document.getElementById('moodStatusText');
+      if (!statusEl) return;
+      const todayStr = getTodayDateString();
+      statusEl.innerText = `✨ Đã làm mới lời chúc ngày ${todayStr} • Đang chọn: ${MOOD_LABELS[currentMood]}`;
+    }
+
     function selectMood(mood, btnEl) {
       currentMood = mood;
       document.querySelectorAll('.mood-btn').forEach(b => {
@@ -999,15 +1424,18 @@
       });
       btnEl.classList.remove('bg-white');
       btnEl.classList.add('bg-pastelpink');
+      updateMoodStatusDisplay();
+
+      // Nếu người dùng đang mở bảng thông điệp mà đổi tâm trạng, cập nhật ngay câu chúc đúng tâm trạng mới!
+      const modal = document.getElementById('inPlaceQuoteModal');
+      if (modal && modal.classList.contains('active')) {
+        currentQuote = pickRandomQuote();
+        const badgeText = MOOD_BADGES[currentQuote.mood] || '🥠 Lời nhắn từ chiếc bánh quy kem';
+        showInPlaceQuote(badgeText, currentQuote.text);
+      }
     }
 
-    function pickRandomQuote() {
-      const pool = currentMood === 'all' ? QUOTES : QUOTES.filter(q => q.mood === currentMood);
-      const list = pool.length > 0 ? pool : QUOTES;
-      return list[Math.floor(Math.random() * list.length)];
-    }
-
-    // MỞ BÁNH QUY (Tách đôi có dải giấy ở giữa giống ảnh mẫu rồi hiện thông điệp)
+    // MỞ BÁNH QUY (Tách đôi có dải giấy ở giữa giống ảnh mẫu rồi hiện thông điệp đúng tâm trạng)
     function openCookie() {
       const wrapper = document.getElementById('cookieWrapper');
       if (wrapper.classList.contains('cracked')) return;
@@ -1022,7 +1450,8 @@
 
       setTimeout(() => {
         currentQuote = pickRandomQuote();
-        showInPlaceQuote('🥠 Lời nhắn từ chiếc bánh quy kem', currentQuote.text);
+        const moodBadge = MOOD_BADGES[currentQuote.mood] || '🥠 Lời nhắn từ chiếc bánh quy kem';
+        showInPlaceQuote(moodBadge, currentQuote.text);
       }, 900);
     }
 
@@ -1153,7 +1582,8 @@
 
       setTimeout(() => {
         currentQuote = pickRandomQuote();
-        showInPlaceQuote(`${picked.icon} Món quà nhỏ gửi tặng bạn`, currentQuote.text);
+        const moodTitle = MOOD_BADGES[currentQuote.mood] || 'Món quà nhỏ gửi tặng bạn';
+        showInPlaceQuote(`${picked.icon} ${moodTitle}`, currentQuote.text);
       }, 1100);
     }
 
@@ -1163,7 +1593,7 @@
       playSound('magic');
     }
 
-    // QUẢN LÝ LỌ ĐỰNG SAO, TÊN NGƯỜI DÙNG & GIẢI TỎA NỖI BUỒN
+    // QUẢN LÝ LỌ ĐỰNG SAO, TÊN NGƯỜNG DÙNG & GIẢI TỎA NỖI BUỒN
     function switchSoulTab(tab) {
       const ventSec = document.getElementById('ventSection');
       const candySec = document.getElementById('candySection');
@@ -1215,16 +1645,18 @@
       } else {
         const items = getStoredItems();
         items.unshift({
+          id: 'star_' + Date.now(),
           type: 'vent',
           author: displayName,
           isSecret,
           content: text,
           hugs: 1,
-          color: '#AED9E0'
+          color: '#AED9E0',
+          createdAt: getTodayDateString()
         });
         saveStoredItems(items);
         input.value = '';
-        replyBox.innerText = `🫂 Tâm sự của "${displayName}" đã được lưu vào lọ & góc đồng cảm để mọi người cùng gửi cái ôm ấm áp!`;
+        replyBox.innerText = `🫂 Tâm sự của "${displayName}" đã được lưu vĩnh viễn vào lọ & góc đồng cảm để mọi người cùng gửi cái ôm ấm áp!`;
         replyBox.classList.remove('hidden');
         renderSharedItems(true);
       }
@@ -1239,16 +1671,22 @@
       const items = getStoredItems();
       const randomColor = STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)];
       items.unshift({
+        id: 'star_' + Date.now(),
         type: 'candy',
         author: displayName,
         isSecret,
         content: text,
         hugs: 1,
-        color: randomColor
+        color: randomColor,
+        createdAt: getTodayDateString()
       });
       saveStoredItems(items);
       input.value = '';
       playSound('magic');
+      const previewEl = document.getElementById('starPreviewText');
+      if (previewEl) {
+        previewEl.innerText = `⭐ Đã lưu vĩnh viễn ngôi sao của ${displayName}: "${text}"`;
+      }
       renderSharedItems(true);
     }
 
@@ -1272,16 +1710,17 @@
       previewEl.innerText = `${icon} ${item.author}: "${item.content}"`;
     }
 
-    // Vẽ các ngôi sao giấy phồng cute trong chiếc lọ thủy tinh + danh sách bên dưới
+    // Vẽ TOÀN BỘ các ngôi sao giấy phồng cute trong chiếc lọ thủy tinh (không giới hạn hay xóa sao cũ) + danh sách bên dưới
     function renderSharedItems(animateNewest = false) {
       const items = getStoredItems();
       const container = document.getElementById('sharedList');
       const jarInside = document.getElementById('starJarInside');
       document.getElementById('jarCounter').innerText = `${items.length} ngôi sao`;
 
-      // Render các ngôi sao giấy bên trong chiếc lọ thủy tinh (tối đa 28 ngôi sao hiển thị trong lọ)
-      const visibleStars = items.slice(0, 28);
-      jarInside.innerHTML = visibleStars.map((item, idx) => {
+      // Tự động điều chỉnh kích thước sao một chút nếu trong lọ có rất nhiều sao để hiển thị đẹp toàn bộ sao của người dùng
+      const starSizeClass = items.length > 35 ? 'w-5 h-5' : (items.length > 20 ? 'w-6 h-6' : 'w-7 h-7');
+
+      jarInside.innerHTML = items.map((item, idx) => {
         const starColor = item.color || STAR_COLORS[idx % STAR_COLORS.length];
         const rot = ((idx * 37) % 50) - 25;
         const isNewest = animateNewest && idx === 0;
@@ -1290,7 +1729,7 @@
           <button onclick="previewStarInJar(${idx})"
                   title="${item.author}: ${item.content}"
                   style="--star-rot: ${rot}deg; transform: rotate(${rot}deg);"
-                  class="${animClass} w-7 h-7 hover:scale-125 transition focus:outline-none">
+                  class="${animClass} ${starSizeClass} hover:scale-125 transition focus:outline-none flex-shrink-0">
             <svg viewBox="0 0 40 40" class="w-full h-full drop-shadow-sm">
               <path d="M 20 3 C 22 3, 25 11, 27 12 C 29 13, 37 14, 37 16 C 37 18, 31 24, 31 26 C 31 28, 33 36, 31 37 C 29 38, 22 33, 20 33 C 18 33, 11 38, 9 37 C 7 36, 9 28, 9 26 C 9 24, 3 18, 3 16 C 3 14, 11 13, 13 12 C 15 11, 18 3, 20 3 Z"
                     fill="${starColor}" stroke="#543D46" stroke-width="3" stroke-linejoin="round" />
@@ -1308,12 +1747,13 @@
         const bgClass = isCandy ? 'bg-pinksoft/55' : 'bg-babyblue/30';
         const badgeIcon = isCandy ? '⭐ Ngôi sao của:' : '🌧️ Nỗi lòng của:';
         const privacyTag = item.isSecret ? '🤫 Bí mật' : '🌟 Công khai';
+        const dateTag = item.createdAt ? ` • ${item.createdAt}` : '';
 
         return `
           <div class="${bgClass} border-2 border-choco rounded-2xl p-3 text-xs">
-            <div class="flex items-center justify-between mb-1">
+            <div class="flex items-center justify-between mb-1 gap-1">
               <span class="font-bold text-choco">${badgeIcon} ${item.author}</span>
-              <span class="text-[10px] bg-white/85 px-2 py-0.5 rounded-full border border-choco">${privacyTag}</span>
+              <span class="text-[10px] bg-white/85 px-2 py-0.5 rounded-full border border-choco whitespace-nowrap">${privacyTag}${dateTag}</span>
             </div>
             <p class="text-choco/90 mb-2 leading-relaxed">${item.content}</p>
             <div class="flex justify-end">
@@ -1375,7 +1815,10 @@
 
     // Khởi tạo ban đầu
     initClawPile();
+    initSavedUserName();
+    updateMoodStatusDisplay();
     renderSharedItems(false);
+    restoreFromIndexedDBIfNeeded();
   </script>
 </body>
 </html>
