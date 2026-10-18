@@ -771,11 +771,16 @@
 
         <!-- Danh sách chi tiết các ngôi sao & lời tâm sự của mọi người -->
         <div class="border-t-2 border-dashed border-choco/20 pt-3">
-          <div class="flex items-center justify-between mb-2 gap-2">
+          <div class="flex flex-wrap items-center justify-between mb-2 gap-1.5">
             <h3 class="font-heading font-bold text-xs md:text-sm">💌 Nhật ký Hộp Sao & Góc Đồng Cảm Chung</h3>
-            <span id="syncStatusBadge" class="text-[10px] font-bold bg-mint/60 px-2.5 py-0.5 rounded-full border border-choco/40 whitespace-nowrap">
-              🌐 Đang kết nối hộp sao chung
-            </span>
+            <div class="flex items-center gap-1.5">
+              <span id="syncStatusBadge" class="text-[10px] font-bold bg-mint/60 px-2.5 py-0.5 rounded-full border border-choco/40 whitespace-nowrap">
+                🌐 Đang kết nối hộp sao chung
+              </span>
+              <button onclick="exportStarsJsonFile()" title="Tải toàn bộ sao của mọi người về thành file stars.json" class="text-[10px] font-bold bg-butter/80 hover:bg-butter px-2 py-0.5 rounded-full border border-choco/50 transition whitespace-nowrap">
+                📥 stars.json
+              </button>
+            </div>
           </div>
 
           <div id="sharedList" class="space-y-2.5 max-h-56 overflow-y-auto pr-1">
@@ -1781,7 +1786,7 @@
 
         saveStoredItems(merged);
         renderSharedItems(false);
-        updateSyncStatusBadge('🌐 Hộp sao chung của Tổ', true);
+        updateSyncStatusBadge('🌐 Hộp sao chung', true);
       } catch (e) {
         updateSyncStatusBadge('💾 Đã lưu tại lọ sao', false);
       }
@@ -1801,6 +1806,34 @@
           } catch (e) {}
         };
       } catch (e) {}
+    }
+
+    // Tự động đọc file stars.json trên GitHub Pages và gộp chung với các ngôi sao mọi người tự gõ trên web
+    async function loadStarsFromJsonFile() {
+      try {
+        const resp = await fetch(`./stars.json?v=${Date.now()}`);
+        if (!resp.ok) return;
+        const jsonStars = await resp.json();
+        if (Array.isArray(jsonStars) && jsonStars.length > 0) {
+          const currentLocal = getStoredItems();
+          const merged = mergeUniqueStarLists([currentLocal, jsonStars]);
+          saveStoredItems(merged);
+          renderSharedItems(false);
+        }
+      } catch (e) {}
+    }
+
+    // Xuất toàn bộ các ngôi sao hiện có trong lọ (bao gồm sao khách thăm web vừa gõ) ra file stars.json
+    function exportStarsJsonFile() {
+      const items = getStoredItems();
+      const jsonString = JSON.stringify(items, null, 2);
+      const blob = new Blob([jsonString], { type: 'application/json;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'stars.json';
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
 
     function releaseSadness(actionType) {
@@ -2079,6 +2112,7 @@
     updateMoodStatusDisplay();
     renderSharedItems(false);
     restoreFromIndexedDBIfNeeded();
+    loadStarsFromJsonFile();
     syncSharedStarsFromCloud();
     subscribeLiveSharedStars();
   </script>

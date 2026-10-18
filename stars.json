@@ -1,0 +1,52 @@
+[
+  {
+    "id": "default_1",
+    "type": "candy",
+    "author": "Mây Nhỏ",
+    "isSecret": false,
+    "content": "Sáng nay đi làm thấy cô bán xôi cười tươi lắm, tự nhiên thấy yêu đời hẳn!",
+    "hugs": 6,
+    "color": "#FFB8CE",
+    "createdAt": "2026-10-18"
+  },
+  {
+    "id": "default_2",
+    "type": "candy",
+    "author": "Bé Đậu",
+    "isSecret": false,
+    "content": "Hôm nay bầu trời màu hồng tím lúc hoàng hôn siêu đẹp luôn!",
+    "hugs": 8,
+    "color": "#FFF3B0",
+    "createdAt": "2026-10-18"
+  },
+  {
+    "id": "default_3",
+    "type": "vent",
+    "author": "Bí mật (L***)",
+    "isSecret": true,
+    "content": "Hôm nay mình làm sai một việc ở chỗ làm, hơi buồn nhưng mình sẽ cố gắng sửa lại vào ngày mai.",
+    "hugs": 11,
+    "color": "#AED9E0",
+    "createdAt": "2026-10-18"
+  },
+  {
+    "id": "default_4",
+    "type": "candy",
+    "author": "Trà Sữa Ít Đường",
+    "isSecret": false,
+    "content": "Tự thưởng cho bản thân một chiếc bánh ngọt sau một tuần chạy deadline.",
+    "hugs": 5,
+    "color": "#B8F2E6",
+    "createdAt": "2026-10-18"
+  },
+  {
+    "id": "default_5",
+    "type": "candy",
+    "author": "Một tâm hồn ẩn danh",
+    "isSecret": true,
+    "content": "Cảm ơn vì một góc nhỏ ấm áp để mình biết mình không cô đơn.",
+    "hugs": 14,
+    "color": "#E2C6FF",
+    "createdAt": "2026-10-18"
+  }
+]
