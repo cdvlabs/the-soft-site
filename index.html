@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hạnh phúc ngoài khuôn mẫu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Charm:wght@700&family=Comfortaa:wght@500;600;700&family=Cormorant+Infant:ital,wght@0,700;1,600;1,700&family=Patrick+Hand&family=Playfair+Display:ital,wght@0,700;1,600;1,700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            pastelpink: '#FFB8CE',
+            pinksoft: '#FFE0EA',
+            pinkdark: '#FF6B95',
+            mint: '#B8F2E6',
+            mintdark: '#59C3C3',
+            butter: '#FFF3B0',
+            butterdark: '#F4D35E',
+            babyblue: '#AED9E0',
+            bluedark: '#5FA8D3',
+            cream: '#FFF9FB',
+            choco: '#543D46'
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'Cormorant Infant', 'Charm', 'serif'],
+            heading: ['Comfortaa', 'sans-serif'],
+            hand: ['Patrick Hand', 'cursive'],
+            body: ['Quicksand', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      /* Giao diện màu hồng đậm lên một xíu, ngọt ngào ấm áp */
+      --bg-main: #FFDCE8;
+      --card-border: #543D46;
+    }
+    body {
+      background-color: var(--bg-main);
+      background-image: radial-gradient(#FF9EBB 1.3px, transparent 1.3px), radial-gradient(#FFF 1.6px, var(--bg-main) 1.6px);
+      background-size: 36px 36px;
+      background-position: 0 0, 18px 18px;
+      color: #543D46;
+      font-family: 'Quicksand', sans-serif;
+      transition: background-color 0.5s ease;
+      overflow-x: hidden;
+    }
+    /* Font Display Serif bay bổng uốn lượn kiểu Misteri Whimsical cho tiêu đề chính */
+    .misteri-title {
+      font-family: 'Playfair Display', 'Cormorant Infant', 'Charm', serif;
+      font-style: italic;
+      font-weight: 700;
+      letter-spacing: 0.015em;
+      text-shadow: 2px 3px 0px #FFE0EA, 4px 5px 0px rgba(84, 61, 70, 0.14);
+      line-height: 1.25;
+    }
+    /* Hiệu ứng chữ nhấp nhô bay bổng nhẹ nhàng như cổ tích */
+    .misteri-word-1 { display: inline-block; transform: translateY(-2px) rotate(-1.5deg); }
+    .misteri-word-2 { display: inline-block; transform: translateY(2px) rotate(1deg); }
+    .misteri-word-3 { display: inline-block; transform: translateY(-3px) rotate(-1deg); }
+    .misteri-word-4 { display: inline-block; transform: translateY(2px) rotate(1.2deg); }
+    .misteri-word-5 { display: inline-block; transform: translateY(-2px) rotate(-1.2deg); }
+    .kawaii-card {
+      background: #FFFFFF;
+      border: 3px solid #543D46;
+      border-radius: 28px;
+      box-shadow: 6px 6px 0px #543D46;
+      transition: all 0.25s ease;
+    }
+    .kawaii-btn {
+      border: 2.5px solid #543D46;
+      box-shadow: 3px 3px 0px #543D46;
+      transition: all 0.15s ease;
+    }
+    .kawaii-btn:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0px #543D46;
+    }
+    .kawaii-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px #543D46;
+    }
+
+    /* Hiệu ứng bánh quy (bỏ bóng lỗi bên trái, hiển thị sắc nét như Hình 1) */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) rotate(-1deg); }
+      50% { transform: translateY(-8px) rotate(1deg); }
+    }
+    .cookie-float {
+      animation: floatSlow 3.5s ease-in-out infinite;
+    }
+    @keyframes shakeCookie {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      20% { transform: rotate(-10deg) scale(1.06); }
+      40% { transform: rotate(10deg) scale(1.09); }
+      60% { transform: rotate(-8deg) scale(1.05); }
+      80% { transform: rotate(8deg) scale(1.02); }
+    }
+    .shaking {
+      animation: shakeCookie 0.45s ease-in-out;
+    }
+
+    /* Trạng thái bánh quy nguyên vs bánh quy tách đôi (dùng display:none khi chưa đập để không tạo bóng mờ bên trái) */
+    #cookieWholeGroup {
+      display: block;
+    }
+    #cookieCrackedGroup {
+      display: none;
+    }
+    .cracked #cookieWholeGroup {
+      display: none;
+    }
+    .cracked #cookieCrackedGroup {
+      display: block;
+    }
+
+    /* Hiệu ứng hiện lời nhắn ngay trên bánh quy */
+    .fortune-paper-overlay {
+      opacity: 0;
+      transform: scale(0.75) translateY(18px);
+      pointer-events: none;
+      transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .fortune-paper-overlay.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Hiệu ứng tan biến nỗi buồn */
+    @keyframes dissolveAway {
+      0% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0px); }
+      50% { transform: scale(1.04) translateY(-18px); opacity: 0.6; filter: blur(2px); }
+      100% { transform: scale(0.85) translateY(-55px); opacity: 0; filter: blur(8px); }
+    }
+    .dissolving {
+      animation: dissolveAway 1.1s ease-out forwards;
+    }
+
+    /* Claw Machine */
+    #claw-arm {
+      transition: left 0.32s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    #claw-cable {
+      transition: height 0.52s ease-in-out;
+    }
+    .claw-prong-left, .claw-prong-right {
+      transition: transform 0.25s ease;
+    }
+    .claw-open .claw-prong-left {
+      transform: rotate(28deg);
+    }
+    .claw-open .claw-prong-right {
+      transform: rotate(-28deg);
+    }
+    .plush-item {
+      transition: transform 0.2s ease, filter 0.2s ease;
+      user-select: none;
+    }
+    .plush-item:hover {
+      transform: scale(1.22) translateY(-4px) !important;
+      z-index: 35 !important;
+      filter: drop-shadow(0 4px 6px rgba(84, 61, 70, 0.35));
+    }
+
+    /* Hiệu ứng ngôi sao rơi vào lọ */
+    @keyframes starDropIn {
+      0% {
+        transform: translateY(-130px) rotate(0deg) scale(0.5);
+        opacity: 0;
+      }
+      30% {
+        opacity: 1;
+        transform: translateY(-60px) rotate(120deg) scale(1.15);
+      }
+      75% {
+        transform: translateY(8px) rotate(320deg) scale(0.95);
+      }
+      100% {
+        transform: translateY(0) rotate(var(--star-rot, 15deg)) scale(1);
+        opacity: 1;
+      }
+    }
+    .star-drop-anim {
+      animation: starDropIn 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    /* Trang Intro chuyển cảnh mượt */
+    #introScreen {
+      transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    #introScreen.hide-intro {
+      opacity: 0;
+      transform: scale(0.94) translateY(-20px);
+      pointer-events: none;
+    }
+    #mainApp {
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-4 md:p-8 relative">
+
+  <!-- THANH CÔNG CỤ TRÊN CÙNG (Nút chọn giao diện màu + Nút Phát nhạc gọn gàng, mặc định rút không giới hạn) -->
+  <div class="max-w-6xl w-full mx-auto flex flex-wrap items-center justify-between gap-4 mb-4 z-30 relative">
+    <!-- Đổi màu nền như bình thường -->
+    <div class="flex items-center gap-2.5 bg-white/95 px-4 py-2 rounded-full border-2 border-choco shadow-sm">
+      <span class="text-xs font-bold mr-1">Màu nền:</span>
+      <button onclick="setTheme('#FFDCE8', this)" title="Hồng phấn đậm ngọt" class="theme-dot w-6 h-6 rounded-full bg-[#FFB8CE] border-2 border-choco ring-2 ring-choco ring-offset-1 hover:scale-110 transition"></button>
+      <button onclick="setTheme('#E0F8F2', this)" title="Xanh Mint" class="theme-dot w-6 h-6 rounded-full bg-mint border-2 border-choco hover:scale-110 transition"></button>
+      <button onclick="setTheme('#FFF7D6', this)" title="Vàng Bơ" class="theme-dot w-6 h-6 rounded-full bg-butter border-2 border-choco hover:scale-110 transition"></button>
+      <button onclick="setTheme('#DFF2F7', this)" title="Baby Blue" class="theme-dot w-6 h-6 rounded-full bg-babyblue border-2 border-choco hover:scale-110 transition"></button>
+    </div>
+
+    <!-- Nút Phát nhạc + Âm thanh (Đã bỏ nút Rút không giới hạn, mặc định rút thoải mái) -->
+    <div class="flex items-center gap-2.5">
+      <button id="bgmToggleBtn" onclick="toggleBackgroundMusic()" class="kawaii-btn bg-pastelpink px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 whitespace-nowrap">
+        🎵 Phát nhạc
+      </button>
+      <button id="soundBtn" onclick="toggleSound()" class="kawaii-btn bg-mint px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-1 whitespace-nowrap">
+        🔊 Âm thanh: Bật
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== TRANG INTRO MỞ ĐẦU ==================== -->
+  <div id="introScreen" class="flex-1 flex items-center justify-center my-auto py-6 z-20 px-2">
+    <div class="kawaii-card max-w-4xl w-full mx-auto px-6 py-8 sm:px-10 md:px-14 md:py-12 text-center relative overflow-hidden bg-white/95">
+      <!-- Trang trí góc -->
+      <div class="absolute -top-6 -left-6 w-24 h-24 bg-pastelpink/50 rounded-full blur-md pointer-events-none"></div>
+      <div class="absolute -bottom-6 -right-6 w-28 h-28 bg-butter/60 rounded-full blur-md pointer-events-none"></div>
+
+      <!-- Các icon lơ lửng đáng yêu -->
+      <div class="flex justify-center items-center gap-3 mb-3">
+        <span class="text-2xl animate-bounce" style="animation-delay: 0.1s;">🌸</span>
+        <span class="inline-block bg-pastelpink px-4 py-1.5 rounded-full border-2 border-choco text-xs font-bold shadow-sm whitespace-nowrap">
+          ✨ Thế giới nhỏ dịu dàng chào đón bạn ✨
+        </span>
+        <span class="text-2xl animate-bounce" style="animation-delay: 0.3s;">⭐</span>
+      </div>
+
+      <!-- Minh họa nhỏ: Bánh quy kem trên màn hình Intro -->
+      <div class="flex justify-center items-center gap-6 my-3">
+        <div class="cookie-float">
+          <svg viewBox="0 0 140 120" class="w-28 h-24">
+            <path d="M 70 68 C 60 40, 80 40, 70 68 Z" fill="#D9822B" />
+            <path d="M 70 18 C 26 18, 12 62, 34 98 C 44 112, 58 96, 70 64 C 82 96, 96 112, 106 98 C 128 62, 114 18, 70 18 Z"
+                  fill="#F8B864" stroke="#4A2525" stroke-width="5" stroke-linejoin="round" />
+            <path d="M 32 45 C 40 22, 100 22, 108 45 C 102 54, 94 44, 86 52 C 78 60, 72 46, 64 54 C 54 62, 48 46, 40 53 C 35 56, 30 50, 32 45 Z"
+                  fill="#FF8DA1" stroke="#4A2525" stroke-width="4" stroke-linejoin="round" />
+            <circle cx="70" cy="18" r="9" fill="#FFFDF9" stroke="#4A2525" stroke-width="3.5" />
+            <circle cx="70" cy="10" r="5.5" fill="#FF4D6D" stroke="#4A2525" stroke-width="3" />
+            <line x1="50" y1="34" x2="55" y2="37" stroke="#FFF3B0" stroke-width="3" stroke-linecap="round" />
+            <line x1="85" y1="35" x2="90" y2="32" stroke="#B8F2E6" stroke-width="3" stroke-linecap="round" />
+            <line x1="68" y1="32" x2="73" y2="34" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Tiêu đề chính bay bổng kiểu Misteri Display Serif kèm họa tiết Sao & Trăng uốn lượn, căn vừa vặn trong khung -->
+      <div class="flex items-center justify-center gap-2 sm:gap-3 my-4 max-w-full overflow-visible">
+        <!-- Họa tiết Sao 8 cánh & nét uốn xoắn ốc bên trái kiểu Misteri -->
+        <svg viewBox="0 0 64 54" class="w-9 h-8 sm:w-12 sm:h-10 flex-shrink-0 text-choco fill-current">
+          <path d="M22 6 L25 18 L37 21 L25 24 L22 36 L19 24 L7 21 L19 18 Z" fill="#543D46"/>
+          <path d="M13 12 L19 19 M31 12 L25 19 M31 30 L25 23 M13 30 L19 23" stroke="#543D46" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="38" cy="10" r="2" fill="#FF6B95"/>
+          <circle cx="10" cy="34" r="1.8" fill="#FF6B95"/>
+          <!-- Nét uốn lượn xoắn bay bổng nối vào chữ H -->
+          <path d="M 30 36 C 38 46, 54 44, 60 32 C 63 25, 56 19, 50 24 C 46 28, 51 34, 55 31" fill="none" stroke="#543D46" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+
+        <h1 class="misteri-title text-2xl sm:text-4xl md:text-[42px] text-choco whitespace-nowrap px-1">
+          <span class="misteri-word-1">Hạnh</span>
+          <span class="misteri-word-2">phúc</span>
+          <span class="misteri-word-3">ngoài</span>
+          <span class="misteri-word-4">khuôn</span>
+          <span class="misteri-word-5">mẫu</span>
+        </h1>
+
+        <!-- Họa tiết Trăng khuyết & nét uốn xoắn ốc bên phải kiểu Misteri -->
+        <svg viewBox="0 0 64 54" class="w-9 h-8 sm:w-12 sm:h-10 flex-shrink-0 text-choco fill-current">
+          <!-- Nét uốn lượn xoắn bay bổng từ chữ mẫu ra -->
+          <path d="M 4 28 C 10 42, 26 44, 34 34 C 38 28, 33 20, 26 24 C 21 27, 25 34, 30 31" fill="none" stroke="#543D46" stroke-width="2.4" stroke-linecap="round"/>
+          <!-- Trăng lưỡi liềm cổ tích + giọt sương -->
+          <path d="M 42 8 C 33 12, 32 26, 42 32 C 37 25, 38 14, 42 8 Z" fill="#543D46" stroke="#543D46" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="50" cy="14" r="2" fill="#FF6B95"/>
+          <circle cx="48" cy="26" r="1.6" fill="#543D46"/>
+          <circle cx="54" cy="21" r="1.4" fill="#543D46"/>
+        </svg>
+      </div>
+
+      <!-- Quote mở đầu: Làm khung to rộng ra để câu nói nằm trọn vẹn bên trong khung nét đứt -->
+      <div class="bg-pinksoft/80 border-2 border-dashed border-choco rounded-3xl py-5 px-6 sm:px-10 mb-7 max-w-3xl w-full mx-auto shadow-inner flex items-center justify-center">
+        <p class="font-hand text-lg sm:text-xl md:text-[25px] text-choco leading-relaxed md:whitespace-nowrap text-center">
+          "Chạm vào những điều chưa hoàn hảo, khám phá những niềm vui trọn vẹn."
+        </p>
+      </div>
+
+      <!-- Nút Bắt Đầu -->
+      <button onclick="enterMainApp()" class="kawaii-btn bg-pastelpink hover:bg-pinkdark hover:text-white text-choco font-heading font-bold text-base md:text-lg px-10 py-3.5 rounded-full inline-flex items-center gap-2.5 transition">
+        <span>🌸 Bắt đầu ngay</span>
+        <span>✨</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== GIAO DIỆN CHÍNH (Ẩn khi đang ở Intro) ==================== -->
+  <div id="mainApp" class="hidden flex-col flex-1 justify-between">
+    <!-- Header rộng rãi để các câu nằm gọn trên 1 hàng không bị rớt chữ -->
+    <header class="text-center max-w-6xl w-full mx-auto mb-6 px-2">
+      <div class="inline-flex items-center gap-2 bg-pastelpink px-4 py-1 rounded-full border-2 border-choco text-xs font-bold mb-2 shadow-sm whitespace-nowrap">
+        <span>✨ Góc nhỏ vỗ về tâm hồn ✨</span>
+        <button onclick="backToIntro()" class="underline text-[11px] ml-1 hover:text-pinkdark" title="Xem lại trang mở đầu">(Trang mở đầu)</button>
+      </div>
+
+      <!-- Tiêu đề chính bay bổng kiểu Misteri với họa tiết Sao & Trăng uốn lượn -->
+      <div class="flex items-center justify-center gap-2 sm:gap-3 mb-2">
+        <svg viewBox="0 0 64 54" class="w-10 h-9 sm:w-14 sm:h-11 flex-shrink-0 text-choco fill-current">
+          <path d="M22 6 L25 18 L37 21 L25 24 L22 36 L19 24 L7 21 L19 18 Z" fill="#543D46"/>
+          <path d="M13 12 L19 19 M31 12 L25 19 M31 30 L25 23 M13 30 L19 23" stroke="#543D46" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="38" cy="10" r="2.2" fill="#FF6B95"/>
+          <circle cx="10" cy="34" r="1.8" fill="#FF6B95"/>
+          <path d="M 30 36 C 38 46, 54 44, 60 32 C 63 25, 56 19, 50 24 C 46 28, 51 34, 55 31" fill="none" stroke="#543D46" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+
+        <h1 class="misteri-title text-2xl sm:text-4xl md:text-5xl text-choco whitespace-nowrap px-1">
+          <span class="misteri-word-1">Hạnh</span>
+          <span class="misteri-word-2">phúc</span>
+          <span class="misteri-word-3">ngoài</span>
+          <span class="misteri-word-4">khuôn</span>
+          <span class="misteri-word-5">mẫu</span>
+        </h1>
+
+        <svg viewBox="0 0 64 54" class="w-10 h-9 sm:w-14 sm:h-11 flex-shrink-0 text-choco fill-current">
+          <path d="M 4 28 C 10 42, 26 44, 34 34 C 38 28, 33 20, 26 24 C 21 27, 25 34, 30 31" fill="none" stroke="#543D46" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M 42 8 C 33 12, 32 26, 42 32 C 37 25, 38 14, 42 8 Z" fill="#543D46" stroke="#543D46" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="50" cy="14" r="2.2" fill="#FF6B95"/>
+          <circle cx="48" cy="26" r="1.6" fill="#543D46"/>
+          <circle cx="54" cy="21" r="1.4" fill="#543D46"/>
+        </svg>
+      </div>
+
+      <p class="font-hand text-lg sm:text-xl md:text-2xl text-choco/95 mb-1 md:whitespace-nowrap">
+        "Chạm vào những điều chưa hoàn hảo, khám phá những niềm vui trọn vẹn."
+      </p>
+      <p class="text-xs md:text-sm text-choco/80 font-medium lg:whitespace-nowrap">
+        Không sao cả nếu hôm nay bạn chưa hoàn hảo. Hãy chọn một tâm trạng và nhận tín hiệu dịu dàng dành riêng cho bạn nhé!
+      </p>
+    </header>
+
+    <!-- Nội dung chính: Mở rộng khung max-w-6xl để cả 2 khung trái phải đều rộng rãi, không bị tràn viền -->
+    <main class="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-7 items-start mb-10">
+
+      <!-- CỘT TRÁI (7 phần): BÁNH QUY MAY MẮN PHỦ KEM & MÁY GẮP SAO/THÚ BÔNG CHỒNG CHẤT -->
+      <section class="lg:col-span-7 kawaii-card p-5 sm:p-6 md:p-7 relative overflow-hidden bg-white">
+        
+        <!-- Bộ lọc tâm trạng: Căn vừa vặn cả 5 nút nằm gọn trong khung trắng -->
+        <div class="mb-5">
+          <p class="text-xs font-bold uppercase tracking-wider text-choco/60 mb-2.5 text-center">Hôm nay lòng bạn thế nào?</p>
+          <div class="flex flex-wrap sm:flex-nowrap justify-center gap-1.5 md:gap-2 w-full" id="moodGroup">
+            <button onclick="selectMood('all', this)" class="mood-btn kawaii-btn bg-pastelpink px-2.5 md:px-3 py-1.5 rounded-full text-[11px] md:text-xs font-bold whitespace-nowrap">🌈 Tất cả</button>
+            <button onclick="selectMood('tired', this)" class="mood-btn kawaii-btn bg-white px-2.5 md:px-3 py-1.5 rounded-full text-[11px] md:text-xs font-bold whitespace-nowrap">😪 Hơi mệt mỏi</button>
+            <button onclick="selectMood('insecure', this)" class="mood-btn kawaii-btn bg-white px-2.5 md:px-3 py-1.5 rounded-full text-[11px] md:text-xs font-bold whitespace-nowrap">🥺 Đang tự ti</button>
+            <button onclick="selectMood('motivation', this)" class="mood-btn kawaii-btn bg-white px-2.5 md:px-3 py-1.5 rounded-full text-[11px] md:text-xs font-bold whitespace-nowrap">🔥 Cần động lực</button>
+            <button onclick="selectMood('peace', this)" class="mood-btn kawaii-btn bg-white px-2.5 md:px-3 py-1.5 rounded-full text-[11px] md:text-xs font-bold whitespace-nowrap">🍃 Muốn bình yên</button>
+          </div>
+        </div>
+
+        <!-- Chuyển đổi chế độ chơi -->
+        <div class="flex justify-center gap-3 mb-5">
+          <button id="tabCookie" onclick="switchGame('cookie')" class="kawaii-btn bg-butter px-5 py-2 rounded-2xl font-bold text-sm flex items-center gap-2 whitespace-nowrap">
+            🥠 Đập Bánh Quy Kem
+          </button>
+          <button id="tabClaw" onclick="switchGame('claw')" class="kawaii-btn bg-white px-5 py-2 rounded-2xl font-bold text-sm flex items-center gap-2 whitespace-nowrap">
+            🧸 Gắp Sao & Thú Bông
+          </button>
+        </div>
+
+        <!-- KHUNG TƯƠNG TÁC CHÍNH (Có Overlay hiện thông điệp ngay trên màn hình này) -->
+        <div class="relative min-h-[360px] flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-choco/40 bg-pinksoft/35 p-4 overflow-hidden">
+
+          <!-- MODE 1: BÁNH QUY MAY MẮN GIỐNG HÌNH MẪU + PHỦ KEM CUTE -->
+          <div id="cookieStage" class="flex flex-col items-center justify-center w-full h-full">
+            <div id="cookieWrapper" onclick="openCookie()" class="cursor-pointer select-none relative flex items-center justify-center w-80 h-64 cookie-float" title="Bấm vào bánh quy để mở lời nhắn!">
+              
+              <!-- SVG Bánh Quy vẽ theo đúng kiểu dáng hình mẫu (bỏ drop-shadow-md để không bị bóng mờ bên trái) -->
+              <svg viewBox="0 0 360 270" class="w-full h-full overflow-visible">
+                <defs>
+                  <!-- Màu vàng cam bánh quy nướng giống hình mẫu -->
+                  <linearGradient id="cartoonCookieGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#FFCB7D" />
+                    <stop offset="65%" stop-color="#F7B35B" />
+                    <stop offset="100%" stop-color="#E5983E" />
+                  </linearGradient>
+                  <!-- Màu kem dâu phủ trên bánh -->
+                  <linearGradient id="strawberryCreamGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#FFC4D6" />
+                    <stop offset="60%" stop-color="#FF94B2" />
+                    <stop offset="100%" stop-color="#FF7096" />
+                  </linearGradient>
+                </defs>
+
+                <!-- Bóng đổ nhẹ ngay dưới đáy bánh -->
+                <ellipse cx="180" cy="240" rx="82" ry="12" fill="#543D46" opacity="0.10" />
+
+                <!-- 1. NHÓM BÁNH QUY NGUYÊN CHIẾC (Giống chiếc bánh ở chính giữa hình mẫu + thêm kem dâu trên đỉnh) -->
+                <g id="cookieWholeGroup">
+                  <!-- Tờ giấy trắng thò nhẹ ra ở khe bánh bên phải (giống hình mẫu góc dưới phải) -->
+                  <g transform="rotate(14, 245, 175)">
+                    <path d="M 220 155 L 288 142 L 296 180 L 225 190 Z" fill="#FFFFFF" stroke="#4A2525" stroke-width="5" stroke-linejoin="round" />
+                    <line x1="240" y1="162" x2="278" y2="155" stroke="#FF7096" stroke-width="3.5" stroke-linecap="round" />
+                    <line x1="244" y1="173" x2="270" y2="168" stroke="#AED9E0" stroke-width="3.5" stroke-linecap="round" />
+                  </g>
+
+                  <!-- Thân chính bánh quy may mắn tròn phồng có khe chữ V ở dưới (y hệt hình giữa trong ảnh mẫu) -->
+                  <path d="M 180 38
+                           C 96 38, 56 105, 86 184
+                           C 96 210, 120 222, 138 205
+                           C 156 188, 170 155, 180 132
+                           C 190 155, 204 188, 222 205
+                           C 240 222, 264 210, 274 184
+                           C 304 105, 264 38, 180 38 Z"
+                        fill="url(#cartoonCookieGrad)"
+                        stroke="#4A2525"
+                        stroke-width="6"
+                        stroke-linejoin="round" />
+
+                  <!-- Vùng bóng tối hõm sâu ở nếp gấp giữa bánh (giống mảng cam đậm ở giữa bánh trong hình mẫu) -->
+                  <path d="M 156 168
+                           C 154 122, 165 92, 180 92
+                           C 195 92, 206 122, 204 168
+                           C 194 152, 186 138, 180 128
+                           C 174 138, 166 152, 156 168 Z"
+                        fill="#DF8E3C" />
+
+                  <!-- Viền đậm khe chữ V ở giữa bánh -->
+                  <path d="M 136 206 C 156 188, 172 156, 180 128 C 188 156, 204 188, 224 206"
+                        fill="none" stroke="#4A2525" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+
+                  <!-- Vệt sáng trắng cong + chấm tròn dọc theo mép trái bánh (đúng nét vẽ trong hình mẫu) -->
+                  <path d="M 94 142 C 90 164, 98 184, 112 195" fill="none" stroke="#FFFDF9" stroke-width="5.5" stroke-linecap="round" />
+                  <circle cx="96" cy="128" r="3" fill="#FFFDF9" />
+                  <path d="M 250 185 C 260 175, 266 160, 267 146" fill="none" stroke="#FFFDF9" stroke-width="5" stroke-linecap="round" opacity="0.85" />
+
+                  <!-- LỚP KEM DÂU CHẢY NGỌT NGÀO TRÊN ĐỈNH BÁNH QUY -->
+                  <path d="M 82 98
+                           C 96 52, 134 35, 180 35
+                           C 226 35, 264 52, 278 98
+                           C 272 114, 256 112, 250 100
+                           C 242 86, 230 92, 224 108
+                           C 218 122, 202 120, 196 104
+                           C 190 90, 174 92, 168 108
+                           C 160 124, 144 122, 138 104
+                           C 132 88, 118 92, 112 106
+                           C 104 120, 86 114, 82 98 Z"
+                        fill="url(#strawberryCreamGrad)"
+                        stroke="#4A2525"
+                        stroke-width="5.5"
+                        stroke-linejoin="round" />
+
+                  <!-- Bóng sáng trắng trên lớp kem dâu -->
+                  <path d="M 118 62 C 138 48, 162 45, 188 46" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.85" />
+                  <circle cx="106" cy="70" r="3.5" fill="#FFFFFF" opacity="0.85" />
+
+                  <!-- Cốm cầu vồng pastel rắc trên kem -->
+                  <line x1="125" y1="78" x2="136" y2="83" stroke="#FFF3B0" stroke-width="4.5" stroke-linecap="round" />
+                  <line x1="158" y1="68" x2="169" y2="63" stroke="#B8F2E6" stroke-width="4.5" stroke-linecap="round" />
+                  <line x1="205" y1="66" x2="216" y2="73" stroke="#FFF3B0" stroke-width="4.5" stroke-linecap="round" />
+                  <line x1="236" y1="80" x2="246" y2="74" stroke="#AED9E0" stroke-width="4.5" stroke-linecap="round" />
+                  <circle cx="182" cy="78" r="3.5" fill="#FFFFFF" />
+                  <circle cx="145" cy="92" r="3" fill="#FFE0EA" />
+                  <circle cx="218" cy="92" r="3" fill="#B8F2E6" />
+
+                  <!-- Chóp kem bông Whipped Cream & Trái Cherry đỏ siêu cute trên đỉnh bánh -->
+                  <path d="M 156 40 C 152 24, 166 16, 180 18 C 194 16, 208 24, 204 40 C 196 46, 164 46, 156 40 Z"
+                        fill="#FFFDF9" stroke="#4A2525" stroke-width="5" stroke-linejoin="round" />
+                  <path d="M 166 28 C 172 20, 188 20, 194 28" fill="none" stroke="#FFE0EA" stroke-width="3.5" stroke-linecap="round" />
+                  <!-- Quả cherry trên chóp kem -->
+                  <path d="M 182 14 C 192 -4, 206 -6, 214 -2" fill="none" stroke="#4A2525" stroke-width="4" stroke-linecap="round" />
+                  <circle cx="180" cy="15" r="10" fill="#FF4D6D" stroke="#4A2525" stroke-width="4.5" />
+                  <circle cx="176" cy="12" r="2.8" fill="#FFFFFF" />
+
+                  <!-- Đôi mắt & má hồng Kawaii trên 2 má bánh quy -->
+                  <g id="cookieCuteFace">
+                    <circle cx="122" cy="148" r="4.5" fill="#4A2525" />
+                    <circle cx="120.5" cy="146.5" r="1.5" fill="#FFFFFF" />
+                    <circle cx="238" cy="148" r="4.5" fill="#4A2525" />
+                    <circle cx="236.5" cy="146.5" r="1.5" fill="#FFFFFF" />
+                    <ellipse cx="108" cy="156" rx="8" ry="4.5" fill="#FF7096" opacity="0.55" />
+                    <ellipse cx="252" cy="156" rx="8" ry="4.5" fill="#FF7096" opacity="0.55" />
+                  </g>
+
+                  <!-- Các chấm nét đứt viền ngoài đặc trưng giống vector trong hình mẫu -->
+                  <circle cx="94" cy="60" r="3" fill="#4A2525" />
+                  <circle cx="84" cy="70" r="2.5" fill="#4A2525" />
+                  <circle cx="268" cy="60" r="3" fill="#4A2525" />
+                  <circle cx="277" cy="70" r="2.5" fill="#4A2525" />
+                </g>
+
+                <!-- 2. NHÓM BÁNH QUY KHI TÁCH ĐÔI KÈM DẢI GIẤY Ở GIỮA (Giống hình trên cùng & dưới cùng trong ảnh mẫu) -->
+                <g id="cookieCrackedGroup">
+                  <!-- Dải băng giấy trắng nối ở giữa 2 nửa bánh -->
+                  <g class="cracked-paper-strip">
+                    <path d="M 75 112 Q 180 106 285 112 L 285 162 Q 180 156 75 162 Z"
+                          fill="#FFFFFF" stroke="#4A2525" stroke-width="5.5" stroke-linejoin="round" />
+                    <line x1="115" y1="130" x2="245" y2="130" stroke="#FF7096" stroke-width="4" stroke-linecap="round" stroke-dasharray="12 8" />
+                    <line x1="135" y1="145" x2="225" y2="145" stroke="#AED9E0" stroke-width="4" stroke-linecap="round" />
+                  </g>
+
+                  <!-- Nửa bánh bên trái (Hình nón cong giống ảnh mẫu + phủ kem) -->
+                  <g class="cracked-left-piece">
+                    <!-- Hốc tối bên trong nửa bánh trái -->
+                    <path d="M 76 74 L 94 190 L 62 178 Z" fill="#C96A4A" stroke="#4A2525" stroke-width="5" stroke-linejoin="round" />
+                    <!-- Vỏ bánh trái -->
+                    <path d="M 76 74 C 42 82, 16 138, 12 172 C 30 190, 65 196, 86 190 C 82 148, 80 105, 76 74 Z"
+                          fill="url(#cartoonCookieGrad)" stroke="#4A2525" stroke-width="5.5" stroke-linejoin="round" />
+                    <!-- Kem dâu trên nửa trái -->
+                    <path d="M 76 74 C 54 78, 34 102, 24 128 C 36 134, 44 120, 54 126 C 64 132, 72 118, 80 122 Z"
+                          fill="url(#strawberryCreamGrad)" stroke="#4A2525" stroke-width="4.5" stroke-linejoin="round" />
+                    <!-- Vệt sáng trắng -->
+                    <path d="M 56 96 C 46 110, 40 126, 36 142" fill="none" stroke="#FFFDF9" stroke-width="4.5" stroke-linecap="round" />
+                  </g>
+
+                  <!-- Nửa bánh bên phải (Hình nón cong giống ảnh mẫu + phủ kem) -->
+                  <g class="cracked-right-piece">
+                    <!-- Hốc tối bên trong nửa bánh phải -->
+                    <path d="M 284 74 L 266 190 L 298 178 Z" fill="#C96A4A" stroke="#4A2525" stroke-width="5" stroke-linejoin="round" />
+                    <!-- Vỏ bánh phải -->
+                    <path d="M 284 74 C 318 82, 344 138, 348 172 C 330 190, 295 196, 274 190 C 278 148, 280 105, 284 74 Z"
+                          fill="url(#cartoonCookieGrad)" stroke="#4A2525" stroke-width="5.5" stroke-linejoin="round" />
+                    <!-- Kem dâu trên nửa phải -->
+                    <path d="M 284 74 C 306 78, 326 102, 336 128 C 324 134, 316 120, 306 126 C 296 132, 288 118, 280 122 Z"
+                          fill="url(#strawberryCreamGrad)" stroke="#4A2525" stroke-width="4.5" stroke-linejoin="round" />
+                    <!-- Vệt sáng trắng -->
+                    <path d="M 304 96 C 314 110, 320 126, 324 142" fill="none" stroke="#FFFDF9" stroke-width="4.5" stroke-linecap="round" />
+                  </g>
+                </g>
+              </svg>
+            </div>
+
+            <p class="text-xs sm:text-sm font-bold text-choco/85 mt-1 text-center sm:whitespace-nowrap">
+              👆 Chạm vào chiếc bánh quy kem để bẻ đôi và đọc thông điệp ngay tại đây
+            </p>
+          </div>
+
+          <!-- MODE 2: MÁY GẮP SAO & THÚ BÔNG (NHIỀU ICON CHỒNG CHẤT NHƯ MÁY GẮP THẬT, KHÔNG ĐỂ TÊN) -->
+          <div id="clawStage" class="hidden flex-col items-center justify-between w-full h-[340px]">
+            <!-- Tủ kính máy gắp -->
+            <div class="relative w-full max-w-md h-64 bg-gradient-to-b from-white/90 via-pinksoft/30 to-pastelpink/40 border-3 border-choco rounded-2xl overflow-hidden shadow-inner">
+              <!-- Ánh đèn led trang trí nóc tủ máy gắp -->
+              <div class="w-full h-3.5 bg-pastelpink border-b-2 border-choco flex justify-around items-center px-4">
+                <span class="w-2 h-2 rounded-full bg-butter border border-choco"></span>
+                <span class="w-2 h-2 rounded-full bg-mint border border-choco"></span>
+                <span class="w-2 h-2 rounded-full bg-white border border-choco"></span>
+                <span class="w-2 h-2 rounded-full bg-babyblue border border-choco"></span>
+                <span class="w-2 h-2 rounded-full bg-butter border border-choco"></span>
+                <span class="w-2 h-2 rounded-full bg-mint border border-choco"></span>
+              </div>
+
+              <!-- Càng gắp (Claw Arm) -->
+              <div id="claw-arm" style="left: 44%;" class="absolute top-3.5 w-16 flex flex-col items-center z-30 pointer-events-none">
+                <div id="claw-cable" class="w-1.5 bg-choco h-5"></div>
+                <!-- Đầu máy gắp -->
+                <div class="w-11 h-5 border-3 border-choco rounded-t-lg bg-butter flex items-center justify-center shadow-sm">
+                  <div class="w-2.5 h-2.5 rounded-full bg-pinkdark border border-choco"></div>
+                </div>
+                <!-- 2 càng kẹp trái phải -->
+                <div class="flex justify-between w-12 -mt-1">
+                  <div class="claw-prong-left w-3 h-6 border-l-4 border-b-4 border-choco rounded-bl-full origin-top-right"></div>
+                  <div class="claw-prong-right w-3 h-6 border-r-4 border-b-4 border-choco rounded-br-full origin-top-left"></div>
+                </div>
+                <!-- Icon đang được gắp lên -->
+                <div id="grabbedPlush" class="text-4xl -mt-4 hidden drop-shadow-md">⭐</div>
+              </div>
+
+              <!-- NÚI ICON CHỒNG CHẤT ĐẦY ẮP ĐÁY TỦ (Không có chữ tên, nhiều lớp chồng lên nhau như máy gắp thú thật) -->
+              <div id="plushPileContainer" class="absolute inset-x-0 bottom-0 h-36 overflow-hidden select-none">
+                <!-- Được render tự động bằng JS với hơn 40 icon chồng chất nhiều tầng -->
+              </div>
+            </div>
+
+            <!-- Bộ nút điều khiển máy gắp -->
+            <div class="flex items-center gap-3 mt-3">
+              <button onclick="stepClaw(-12)" class="kawaii-btn bg-mint px-4 py-2 rounded-xl font-bold text-sm">◀ Qua trái</button>
+              <button onclick="dropClaw()" class="kawaii-btn bg-pastelpink hover:bg-pinkdark hover:text-white px-6 py-2 rounded-xl font-bold text-sm transition">🎯 THẢ CÀNG GẮP!</button>
+              <button onclick="stepClaw(12)" class="kawaii-btn bg-mint px-4 py-2 rounded-xl font-bold text-sm">Qua phải ▶</button>
+            </div>
+          </div>
+
+          <!-- THÔNG ĐIỆP HIỆN LÊN NGAY TRÊN MÀN HÌNH BÁNH QUY / MÁY GẮP (IN-PLACE OVERLAY) -->
+          <div id="inPlaceQuoteModal" class="fortune-paper-overlay absolute inset-1.5 bg-white/95 backdrop-blur-sm border-3 border-choco rounded-2xl p-5 flex flex-col justify-between z-40 shadow-xl">
+            <div class="flex items-center justify-between border-b-2 border-dashed border-choco/20 pb-2">
+              <span id="quoteBadge" class="text-xs font-bold bg-butter px-3 py-1 rounded-full border border-choco">
+                🥠 Lời nhắn từ chiếc bánh quy
+              </span>
+              <button onclick="resetCookieScreen()" class="text-xs font-bold bg-pastelpink/70 hover:bg-pastelpink px-3 py-1 rounded-full border border-choco transition">
+                ✕ Đóng lại
+              </button>
+            </div>
+
+            <!-- Nội dung câu nói -->
+            <div class="my-auto py-3 px-3 text-center">
+              <p id="quoteContent" class="font-hand text-2xl md:text-3xl text-choco leading-relaxed">
+                "Hôm nay bạn không cần phải rực rỡ như pháo hoa, chỉ cần bình yên như ánh đèn vàng nơi góc phố là đủ rồi."
+              </p>
+            </div>
+
+            <!-- Nút tương tác ngay trên tờ giấy -->
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t-2 border-dashed border-choco/20">
+              <div class="flex items-center gap-2">
+                <button onclick="likeQuote()" id="heartBtn" class="kawaii-btn bg-pastelpink px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1">
+                  💗 Cảm ơn vũ trụ (<span id="heartCount">12</span>)
+                </button>
+                <button onclick="downloadStoryCard()" class="kawaii-btn bg-babyblue px-3 py-1.5 rounded-xl text-xs font-bold">
+                  📸 Lưu thiệp 9:16
+                </button>
+              </div>
+              <button onclick="drawAnotherImmediately()" class="kawaii-btn bg-mint px-3.5 py-1.5 rounded-xl text-xs font-bold">
+                🔄 Thử thêm lần nữa
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- CỘT PHẢI (5 phần): CHIẾC LỌ ĐỰNG SAO HẠNH PHÚC & GÓC GIẢI TỎA NỖI BUỒN -->
+      <section class="lg:col-span-5 kawaii-card p-5 sm:p-6 md:p-7 bg-white flex flex-col justify-between">
+        
+        <div>
+          <!-- CHIẾC LỌ ĐỰNG SAO THỦY TINH (Giống bản cũ, mỗi niềm vui/tâm sự là một ngôi sao giấy rơi vào lọ) -->
+          <div class="mb-5 bg-pinksoft/40 border-2 border-choco rounded-3xl p-4 sm:p-5 flex flex-col items-center relative overflow-hidden">
+            <div class="flex items-center justify-between gap-2 w-full mb-2 px-1">
+              <span class="font-heading font-bold text-xs sm:text-sm flex items-center gap-1 whitespace-nowrap">
+                ✨ Chiếc Lọ Đựng Sao Hạnh Phúc
+              </span>
+              <span id="jarCounter" class="text-xs font-bold bg-butter px-3 py-0.5 rounded-full border border-choco whitespace-nowrap flex-shrink-0">
+                0 ngôi sao
+              </span>
+            </div>
+
+            <!-- Hình vẽ Lọ Thủy Tinh Đựng Sao có hiệu ứng sao rơi -->
+            <div class="relative w-44 h-48 my-1 flex items-center justify-center select-none">
+              <!-- Nắp bần & Nơ buộc cổ lọ -->
+              <div class="absolute top-0 w-20 h-5 bg-[#D49B6A] border-3 border-choco rounded-t-lg z-20"></div>
+              <div class="absolute top-4 w-24 h-4 bg-pastelpink border-2 border-choco rounded-full z-20 flex items-center justify-center">
+                <span class="text-xs">🎀</span>
+              </div>
+
+              <!-- Thân lọ thủy tinh -->
+              <div class="w-40 h-40 mt-6 rounded-b-[38px] rounded-t-[20px] border-3 border-choco bg-gradient-to-b from-white/80 via-babyblue/20 to-pastelpink/30 relative overflow-hidden shadow-inner flex flex-col justify-end p-2.5">
+                <!-- Vệt sáng phản chiếu trên mặt kính -->
+                <div class="absolute top-3 left-3 w-2.5 h-24 bg-white/70 rounded-full pointer-events-none"></div>
+                <div class="absolute top-4 right-3 w-1.5 h-12 bg-white/50 rounded-full pointer-events-none"></div>
+
+                <!-- Các ngôi sao giấy xếp chồng trong lọ -->
+                <div id="starJarInside" class="relative w-full h-32 flex flex-wrap-reverse content-start items-center justify-center gap-1 z-10 overflow-hidden pt-2">
+                  <!-- Render các ngôi sao giấy bằng JS -->
+                </div>
+              </div>
+            </div>
+
+            <p id="starPreviewText" class="text-xs font-semibold text-choco/85 text-center bg-white/95 px-4 py-1.5 rounded-2xl border border-choco/40 mt-1.5 w-full leading-snug">
+              💡 Chạm vào ngôi sao trong lọ để đọc lời nhắn nhé!
+            </p>
+          </div>
+
+          <!-- Tabs chuyển đổi: Gấp Sao Hạnh Phúc vs Giải Tỏa Nỗi Buồn -->
+          <div class="grid grid-cols-2 gap-2 mb-4 bg-cream p-1.5 rounded-2xl border-2 border-choco">
+            <button id="modeCandyBtn" onclick="switchSoulTab('candy')" class="py-2 px-3 rounded-xl font-bold text-xs transition bg-pastelpink border-2 border-choco shadow-sm whitespace-nowrap">
+              ⭐ Thả sao & kẹo ngọt
+            </button>
+            <button id="modeVentBtn" onclick="switchSoulTab('vent')" class="py-2 px-3 rounded-xl font-bold text-xs transition text-choco/70 hover:text-choco whitespace-nowrap">
+              🌧️ Giải tỏa nỗi buồn
+            </button>
+          </div>
+
+          <!-- Phần nhập Tên & Tùy chọn Bí mật / Công khai -->
+          <div class="mb-4 bg-butter/40 p-3.5 rounded-2xl border-2 border-choco">
+            <label class="block text-xs font-bold mb-1.5 whitespace-nowrap">🏷️ Tên ghi trên ngôi sao / viên kẹo của bạn:</label>
+            <input id="userNameInput" type="text" placeholder="Nhập tên hoặc biệt danh của bạn..." 
+                   class="w-full px-3 py-2 rounded-xl border-2 border-choco text-sm bg-white focus:outline-none mb-2" />
+            
+            <div class="flex items-center gap-4 text-xs font-bold">
+              <label class="flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+                <input type="radio" name="privacyMode" value="public" checked class="accent-pinkdark" />
+                <span>🌟 Công khai tên</span>
+              </label>
+              <label class="flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+                <input type="radio" name="privacyMode" value="secret" class="accent-pinkdark" />
+                <span>🤫 Giữ bí mật (Ẩn danh)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- TAB 1: THẢ SAO / KẸO HẠNH PHÚC VÀO LỌ -->
+          <div id="candySection">
+            <label class="block text-xs font-bold mb-1.5 text-choco whitespace-nowrap">
+              ⭐ Viết một điều nhỏ xíu khiến bạn mỉm cười hôm nay:
+            </label>
+            <textarea id="candyInput" rows="2" placeholder="Ví dụ: Uống được một ly trà sữa ngon, thấy một chú mèo nằm phơi nắng..."
+                      class="w-full p-3 rounded-2xl border-2 border-choco text-sm bg-pinksoft/30 focus:outline-none resize-none mb-3"></textarea>
+            <button onclick="addSweetCandy()" class="w-full kawaii-btn bg-pastelpink hover:bg-pinkdark hover:text-white py-2.5 px-4 rounded-xl font-bold text-xs mb-4 transition whitespace-nowrap">
+              ⭐ Gấp ngôi sao mang tên bạn thả vào lọ
+            </button>
+          </div>
+
+          <!-- TAB 2: GIẢI TỎA NỖI BUỒN -->
+          <div id="ventSection" class="hidden">
+            <div id="ventBoxWrapper" class="mb-3">
+              <label class="block text-xs font-bold mb-1.5 text-choco whitespace-nowrap">
+                🌧️ Hôm nay có điều gì làm bạn nặng lòng? Hãy trút hết vào đây:
+              </label>
+              <textarea id="ventInput" rows="2" placeholder="Viết ra nỗi buồn, sự mệt mỏi hay áp lực của bạn..."
+                        class="w-full p-3 rounded-2xl border-2 border-choco text-sm bg-babyblue/20 focus:outline-none resize-none"></textarea>
+            </div>
+
+            <div class="flex flex-wrap gap-2 mb-4">
+              <button onclick="releaseSadness('dissolve')" class="flex-1 kawaii-btn bg-babyblue py-2.5 px-3 rounded-xl font-bold text-xs whitespace-nowrap">
+                🌬️ Thả trôi vào mây
+              </button>
+              <button onclick="releaseSadness('share')" class="flex-1 kawaii-btn bg-pastelpink py-2.5 px-3 rounded-xl font-bold text-xs whitespace-nowrap">
+                🫂 Gửi vào góc đồng cảm
+              </button>
+            </div>
+
+            <!-- Lời hồi đáp dịu dàng khi vừa giải tỏa xong -->
+            <div id="comfortReply" class="hidden mb-4 p-3.5 rounded-2xl bg-mint/50 border-2 border-choco text-xs font-semibold leading-relaxed">
+            </div>
+          </div>
+        </div>
+
+        <!-- Danh sách chi tiết các ngôi sao & lời tâm sự -->
+        <div class="border-t-2 border-dashed border-choco/20 pt-3">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-heading font-bold text-xs md:text-sm">💌 Nhật ký Sao & Góc Đồng Cảm</h3>
+          </div>
+
+          <div id="sharedList" class="space-y-2.5 max-h-48 overflow-y-auto pr-1">
+            <!-- Render bằng JS -->
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <!-- Lời nhắn kết trang -->
+    <footer class="text-center py-6 px-4 border-t-2 border-dashed border-choco/25 max-w-3xl mx-auto w-full">
+      <p class="font-hand text-xl md:text-2xl text-choco tracking-wide">
+        "Mong rằng khi rời khỏi nơi đây, bạn sẽ nhìn thế giới bằng một ánh mắt dịu dàng hơn"
+      </p>
+    </footer>
+  </div>
+
+  <!-- Canvas ẩn để xuất ảnh Story 9:16 -->
+  <canvas id="storyCanvas" width="1080" height="1920" class="hidden"></canvas>
+
+  <script>
+    // Danh sách câu nói chữa lành
+    const QUOTES = [
+      { text: "Hôm nay bạn không cần phải hoàn hảo, chỉ cần dịu dàng với chính mình hơn hôm qua một chút là đủ rồi.", mood: "tired" },
+      { text: "Những chiếc bánh quy hơi méo một chút vẫn ngọt ngào như thường. Bạn cũng vậy, những thiếu sót không làm giảm đi giá trị của bạn.", mood: "insecure" },
+      { text: "Nếu mệt quá thì cứ nghỉ chân một lát nhé. Thế giới ngoài kia vẫn quay, và bạn xứng đáng có một khoảng lặng để thở phào.", mood: "tired" },
+      { text: "Đi chậm cũng được, miễn là bạn không bỏ rơi chính mình trên hành trình này.", mood: "motivation" },
+      { text: "Không có bông hoa nào nở cùng một lúc, cũng chẳng có khuôn mẫu chung nào cho hạnh phúc của tất cả mọi người.", mood: "insecure" },
+      { text: "Hít vào một hơi thật sâu, thở ra hết những âu lo. Bạn đã làm rất tốt trong khả năng của mình ngày hôm nay rồi.", mood: "peace" },
+      { text: "Một ngày chưa trọn vẹn không có nghĩa là một cuộc đời thất bại. Ngày mai mặt trời vẫn dịu dàng mọc lên vì bạn.", mood: "motivation" },
+      { text: "Đừng bắt bản thân phải luôn mạnh mẽ. Đôi khi cho phép mình yếu lòng một chút cũng là một dạng dũng cảm.", mood: "tired" },
+      { text: "Bạn là phiên bản giới hạn duy nhất trên thế gian này, đừng tự ép mình vào chiếc khuôn của bất kỳ ai khác.", mood: "insecure" },
+      { text: "Bình yên không phải là nơi không có giông bão, mà là khi lòng bạn biết tự vỗ về mình giữa những ngày mưa.", mood: "peace" }
+    ];
+
+    const COMFORT_MESSAGES = [
+      "🌬️ Nỗi buồn của bạn đã được gió cuốn lên những đám mây mềm rồi. Ôm bạn một cái thật chặt nhé, mọi chuyện rồi sẽ nhẹ nhàng hơn thôi!",
+      "🫂 Cảm ơn bạn đã dũng cảm nói ra điều làm mình nặng lòng. Hôm nay vất vả cho bạn nhiều rồi, tối nay nhớ ngủ thật ngon nhé!",
+      "🌈 Sau cơn mưa trời lại sáng, những cảm xúc tiêu cực rồi cũng sẽ trôi qua. Bạn không hề cô đơn đâu!"
+    ];
+
+    // Danh sách rất nhiều icon đáng yêu cho Máy Gắp Sao & Thú Bông chồng chất (không để tên)
+    const CLAW_ICONS = [
+      '⭐', '🌟', '🧸', '🐰', '🐱', '🐸', '🦊', '🐼', '🐨', '🐹',
+      '🐥', '🦄', '🐙', '🦋', '🌸', '🍓', '🍰', '🍭', '🍬', '🧁',
+      '🌈', '☁️', '🌙', '💖', '🎀', '🐣', '🐝', '🐢', '🐳', '🍒',
+      '🍩', '🍪', '🍮', '🌷', '🌻', '🍀', '🎈', '👑', '✨', '🍑',
+      '⭐', '🧸', '🐰', '🍓', '🌟'
+    ];
+
+    let plushPileData = [];
+    let currentMood = 'all';
+    let currentQuote = QUOTES[0];
+    let soundEnabled = true;
+    let clawPosition = 44;
+
+    // Dữ liệu mẫu ban đầu cho Lọ Đựng Sao & Góc Đồng Cảm
+    const defaultItems = [
+      { type: 'candy', author: 'Mây Nhỏ', isSecret: false, content: 'Sáng nay đi làm thấy cô bán xôi cười tươi lắm, tự nhiên thấy yêu đời hẳn!', hugs: 6, color: '#FFB8CE' },
+      { type: 'candy', author: 'Bé Đậu', isSecret: false, content: 'Hôm nay bầu trời màu hồng tím lúc hoàng hôn siêu đẹp luôn!', hugs: 8, color: '#FFF3B0' },
+      { type: 'vent', author: 'Bí mật (L***)', isSecret: true, content: 'Hôm nay mình làm sai một việc ở chỗ làm, hơi buồn nhưng mình sẽ cố gắng sửa lại vào ngày mai.', hugs: 11, color: '#AED9E0' },
+      { type: 'candy', author: 'Trà Sữa Ít Đường', isSecret: false, content: 'Tự thưởng cho bản thân một chiếc bánh ngọt sau một tuần chạy deadline.', hugs: 5, color: '#B8F2E6' },
+      { type: 'candy', author: 'Một tâm hồn ẩn danh', isSecret: true, content: 'Cảm ơn vì một góc nhỏ ấm áp để mình biết mình không cô đơn.', hugs: 14, color: '#E2C6FF' }
+    ];
+
+    const STAR_COLORS = ['#FFB8CE', '#FFF3B0', '#B8F2E6', '#AED9E0', '#E2C6FF', '#FFC8A2'];
+
+    function getStoredItems() {
+      const saved = localStorage.getItem('imperfect_world_items_v4');
+      return saved ? JSON.parse(saved) : defaultItems;
+    }
+
+    function saveStoredItems(items) {
+      localStorage.setItem('imperfect_world_items_v4', JSON.stringify(items));
+    }
+
+    // ================= HỆ THỐNG PHÁT NHẠC NỀN WHIMSICAL ("I Used To Run Away") =================
+    let bgmPlaying = false;
+    let bgmInterval = null;
+    let bgmAudioCtx = null;
+    let usingCustomMp3 = false;
+    let melodyStep = 0;
+
+    // Giai điệu Music Box & Warm Piano dịu dàng lấy cảm hứng từ "I Used To Run Away"
+    const WHIMSICAL_MELODY = [
+      { note: 523.25, bass: 261.63, dur: 0.7 }, // C5 + C4
+      { note: 659.25, bass: 329.63, dur: 0.7 }, // E5 + E4
+      { note: 783.99, bass: 392.00, dur: 0.9 }, // G5 + G4
+      { note: 659.25, bass: 329.63, dur: 0.7 }, // E5
+      { note: 587.33, bass: 293.66, dur: 0.8 }, // D5 + D4
+      { note: 659.25, bass: 349.23, dur: 0.7 }, // E5 + F4
+      { note: 523.25, bass: 261.63, dur: 1.1 }, // C5
+      { note: 493.88, bass: 246.94, dur: 0.7 }, // B4 + B3
+      { note: 440.00, bass: 220.00, dur: 0.8 }, // A4 + A3
+      { note: 523.25, bass: 261.63, dur: 0.7 }, // C5
+      { note: 659.25, bass: 329.63, dur: 0.9 }, // E5
+      { note: 587.33, bass: 293.66, dur: 0.8 }, // D5
+      { note: 523.25, bass: 261.63, dur: 0.7 }, // C5
+      { note: 440.00, bass: 220.00, dur: 0.8 }, // A4
+      { note: 392.00, bass: 196.00, dur: 1.2 }, // G4 + G3
+      { note: 440.00, bass: 220.00, dur: 0.8 }  // A4
+    ];
+
+    function playMelodyNote() {
+      if (!bgmPlaying || usingCustomMp3) return;
+      try {
+        if (!bgmAudioCtx) {
+          bgmAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (bgmAudioCtx.state === 'suspended') {
+          bgmAudioCtx.resume();
+        }
+        const item = WHIMSICAL_MELODY[melodyStep % WHIMSICAL_MELODY.length];
+        melodyStep++;
+
+        const now = bgmAudioCtx.currentTime;
+
+        // Âm chính (Music Box bell tone)
+        const osc1 = bgmAudioCtx.createOscillator();
+        const gain1 = bgmAudioCtx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(item.note, now);
+        gain1.gain.setValueAtTime(0.001, now);
+        gain1.gain.linearRampToValueAtTime(0.07, now + 0.04);
+        gain1.gain.exponentialRampToValueAtTime(0.0008, now + item.dur * 1.4);
+        osc1.connect(gain1);
+        gain1.connect(bgmAudioCtx.destination);
+        osc1.start(now);
+        osc1.stop(now + item.dur * 1.45);
+
+        // Âm đệm ấm (Warm Rhodes Pad)
+        const osc2 = bgmAudioCtx.createOscillator();
+        const gain2 = bgmAudioCtx.createGain();
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(item.bass, now);
+        gain2.gain.setValueAtTime(0.001, now);
+        gain2.gain.linearRampToValueAtTime(0.035, now + 0.06);
+        gain2.gain.exponentialRampToValueAtTime(0.0008, now + item.dur * 1.5);
+        osc2.connect(gain2);
+        gain2.connect(bgmAudioCtx.destination);
+        osc2.start(now);
+        osc2.stop(now + item.dur * 1.55);
+      } catch (e) {}
+    }
+
+    function updateMusicUI() {
+      const btn = document.getElementById('bgmToggleBtn');
+      if (!btn) return;
+      if (bgmPlaying) {
+        btn.innerText = '🎶 Tạm dừng nhạc';
+        btn.classList.replace('bg-pastelpink', 'bg-mint');
+      } else {
+        btn.innerText = '🎵 Phát nhạc';
+        btn.classList.replace('bg-mint', 'bg-pastelpink');
+      }
+    }
+
+    function startBackgroundMusic() {
+      if (bgmPlaying) return;
+      bgmPlaying = true;
+      updateMusicUI();
+      playMelodyNote();
+      bgmInterval = setInterval(playMelodyNote, 680);
+    }
+
+    function stopBackgroundMusic() {
+      bgmPlaying = false;
+      updateMusicUI();
+      if (bgmInterval) {
+        clearInterval(bgmInterval);
+        bgmInterval = null;
+      }
+    }
+
+    function toggleBackgroundMusic() {
+      if (bgmPlaying) {
+        stopBackgroundMusic();
+      } else {
+        startBackgroundMusic();
+      }
+    }
+
+    // Chuyển từ Trang Intro vào Trang Chính
+    function enterMainApp() {
+      playSound('magic');
+      const intro = document.getElementById('introScreen');
+      const main = document.getElementById('mainApp');
+      intro.classList.add('hide-intro');
+      setTimeout(() => {
+        intro.classList.add('hidden');
+        main.classList.remove('hidden');
+        main.classList.add('flex');
+      }, 420);
+    }
+
+    function backToIntro() {
+      playSound('magic');
+      const intro = document.getElementById('introScreen');
+      const main = document.getElementById('mainApp');
+      main.classList.add('hidden');
+      main.classList.remove('flex');
+      intro.classList.remove('hidden');
+      setTimeout(() => {
+        intro.classList.remove('hide-intro');
+      }, 30);
+    }
+
+    // Âm thanh Web Audio nhẹ nhàng (SFX)
+    function playSound(type) {
+      if (!soundEnabled) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        if (type === 'crack') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(320, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(640, ctx.currentTime + 0.16);
+          gain.gain.setValueAtTime(0.18, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.18);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.18);
+        } else if (type === 'magic') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(783.99, ctx.currentTime + 0.35);
+          gain.gain.setValueAtTime(0.15, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.35);
+        }
+      } catch (e) {}
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('soundBtn').innerText = soundEnabled ? '🔊 Âm thanh: Bật' : '🔇 Âm thanh: Tắt';
+    }
+
+    function setTheme(colorHex, btnEl) {
+      document.documentElement.style.setProperty('--bg-main', colorHex);
+      if (btnEl) {
+        document.querySelectorAll('.theme-dot').forEach(b => {
+          b.classList.remove('ring-2', 'ring-choco', 'ring-offset-1');
+        });
+        btnEl.classList.add('ring-2', 'ring-choco', 'ring-offset-1');
+      }
+    }
+
+    function selectMood(mood, btnEl) {
+      currentMood = mood;
+      document.querySelectorAll('.mood-btn').forEach(b => {
+        b.classList.remove('bg-pastelpink');
+        b.classList.add('bg-white');
+      });
+      btnEl.classList.remove('bg-white');
+      btnEl.classList.add('bg-pastelpink');
+    }
+
+    function pickRandomQuote() {
+      const pool = currentMood === 'all' ? QUOTES : QUOTES.filter(q => q.mood === currentMood);
+      const list = pool.length > 0 ? pool : QUOTES;
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+    // MỞ BÁNH QUY (Tách đôi có dải giấy ở giữa giống ảnh mẫu rồi hiện thông điệp)
+    function openCookie() {
+      const wrapper = document.getElementById('cookieWrapper');
+      if (wrapper.classList.contains('cracked')) return;
+
+      playSound('crack');
+      wrapper.classList.add('shaking');
+
+      setTimeout(() => {
+        wrapper.classList.remove('shaking');
+        wrapper.classList.add('cracked');
+      }, 360);
+
+      setTimeout(() => {
+        currentQuote = pickRandomQuote();
+        showInPlaceQuote('🥠 Lời nhắn từ chiếc bánh quy kem', currentQuote.text);
+      }, 900);
+    }
+
+    function showInPlaceQuote(badgeText, quoteText) {
+      playSound('magic');
+      document.getElementById('quoteBadge').innerText = badgeText;
+      document.getElementById('quoteContent').innerText = `"${quoteText}"`;
+      document.getElementById('inPlaceQuoteModal').classList.add('active');
+    }
+
+    function resetCookieScreen() {
+      document.getElementById('inPlaceQuoteModal').classList.remove('active');
+      document.getElementById('cookieWrapper').classList.remove('cracked');
+      document.getElementById('grabbedPlush').classList.add('hidden');
+    }
+
+    function drawAnotherImmediately() {
+      resetCookieScreen();
+      setTimeout(() => {
+        if (!document.getElementById('cookieStage').classList.contains('hidden')) {
+          openCookie();
+        } else {
+          dropClaw();
+        }
+      }, 280);
+    }
+
+    // CHUYỂN ĐỔI BÁNH QUY <-> GẮP SAO/THÚ
+    function switchGame(mode) {
+      resetCookieScreen();
+      const cookieStage = document.getElementById('cookieStage');
+      const clawStage = document.getElementById('clawStage');
+      const tabCookie = document.getElementById('tabCookie');
+      const tabClaw = document.getElementById('tabClaw');
+
+      if (mode === 'cookie') {
+        cookieStage.classList.remove('hidden');
+        clawStage.classList.add('hidden');
+        clawStage.classList.remove('flex');
+        tabCookie.classList.replace('bg-white', 'bg-butter');
+        tabClaw.classList.replace('bg-butter', 'bg-white');
+      } else {
+        cookieStage.classList.add('hidden');
+        clawStage.classList.remove('hidden');
+        clawStage.classList.add('flex');
+        tabClaw.classList.replace('bg-white', 'bg-butter');
+        tabCookie.classList.replace('bg-butter', 'bg-white');
+      }
+    }
+
+    // KHỞI TẠO ĐỐNG ICON CHỒNG CHẤT TRONG MÁY GẮP (Không có tên, nhiều tầng dày đặc như máy gắp thú thật)
+    function initClawPile() {
+      const container = document.getElementById('plushPileContainer');
+      plushPileData = [];
+
+      // Chia làm 4 tầng chồng chất từ đáy lên trên
+      const layers = [
+        { count: 12, bottomMin: -4, bottomMax: 8, sizeClass: 'text-3xl', z: 10 },
+        { count: 12, bottomMin: 16, bottomMax: 30, sizeClass: 'text-3xl', z: 15 },
+        { count: 11, bottomMin: 36, bottomMax: 52, sizeClass: 'text-4xl', z: 20 },
+        { count: 9,  bottomMin: 56, bottomMax: 72, sizeClass: 'text-4xl', z: 25 }
+      ];
+
+      let iconIdx = 0;
+      layers.forEach((layer) => {
+        for (let i = 0; i < layer.count; i++) {
+          const icon = CLAW_ICONS[iconIdx % CLAW_ICONS.length];
+          iconIdx++;
+          // Trải đều theo chiều ngang từ 2% đến 88% kèm độ lệch tự nhiên
+          const baseLeft = (i / (layer.count - 1)) * 84 + 2;
+          const jitterX = (Math.sin(iconIdx * 7.3) * 3.5);
+          const leftPct = Math.max(2, Math.min(88, baseLeft + jitterX));
+          const bottomPx = layer.bottomMin + ((iconIdx * 13) % (layer.bottomMax - layer.bottomMin + 1));
+          const rotDeg = ((iconIdx * 29) % 46) - 23;
+
+          plushPileData.push({
+            icon,
+            left: leftPct,
+            bottom: bottomPx,
+            rot: rotDeg,
+            sizeClass: layer.sizeClass,
+            z: layer.z
+          });
+        }
+      });
+
+      container.innerHTML = plushPileData.map((item) => `
+        <button onclick="moveClawTo(${Math.round(item.left)})"
+                title="Chạm để di chuyển càng gắp tới đây"
+                style="left: ${item.left}%; bottom: ${item.bottom}px; transform: rotate(${item.rot}deg); z-index: ${item.z};"
+                class="plush-item absolute ${item.sizeClass} cursor-pointer drop-shadow-sm focus:outline-none">
+          ${item.icon}
+        </button>
+      `).join('');
+    }
+
+    // LOGIC ĐIỀU KHIỂN MÁY GẮP
+    function stepClaw(delta) {
+      clawPosition = Math.max(4, Math.min(86, clawPosition + delta));
+      document.getElementById('claw-arm').style.left = clawPosition + '%';
+    }
+
+    function moveClawTo(pos) {
+      clawPosition = Math.max(4, Math.min(86, pos));
+      document.getElementById('claw-arm').style.left = clawPosition + '%';
+    }
+
+    function dropClaw() {
+      const arm = document.getElementById('claw-arm');
+      const cable = document.getElementById('claw-cable');
+      const plush = document.getElementById('grabbedPlush');
+
+      // Tìm các icon gần vị trí càng gắp nhất
+      let candidates = plushPileData.filter(p => Math.abs(p.left - clawPosition) <= 12);
+      if (candidates.length === 0) candidates = plushPileData;
+      const picked = candidates[Math.floor(Math.random() * candidates.length)];
+
+      playSound('crack');
+      arm.classList.add('claw-open');
+      cable.style.height = '122px';
+
+      setTimeout(() => {
+        arm.classList.remove('claw-open');
+        plush.innerText = picked.icon;
+        plush.classList.remove('hidden');
+        cable.style.height = '20px';
+      }, 540);
+
+      setTimeout(() => {
+        currentQuote = pickRandomQuote();
+        showInPlaceQuote(`${picked.icon} Món quà nhỏ gửi tặng bạn`, currentQuote.text);
+      }, 1100);
+    }
+
+    function likeQuote() {
+      const countEl = document.getElementById('heartCount');
+      countEl.innerText = parseInt(countEl.innerText, 10) + 1;
+      playSound('magic');
+    }
+
+    // QUẢN LÝ LỌ ĐỰNG SAO, TÊN NGƯỜI DÙNG & GIẢI TỎA NỖI BUỒN
+    function switchSoulTab(tab) {
+      const ventSec = document.getElementById('ventSection');
+      const candySec = document.getElementById('candySection');
+      const ventBtn = document.getElementById('modeVentBtn');
+      const candyBtn = document.getElementById('modeCandyBtn');
+
+      if (tab === 'vent') {
+        ventSec.classList.remove('hidden');
+        candySec.classList.add('hidden');
+        ventBtn.className = 'py-2 px-3 rounded-xl font-bold text-xs transition bg-babyblue border-2 border-choco shadow-sm';
+        candyBtn.className = 'py-2 px-3 rounded-xl font-bold text-xs transition text-choco/70 hover:text-choco';
+      } else {
+        candySec.classList.remove('hidden');
+        ventSec.classList.add('hidden');
+        candyBtn.className = 'py-2 px-3 rounded-xl font-bold text-xs transition bg-pastelpink border-2 border-choco shadow-sm';
+        ventBtn.className = 'py-2 px-3 rounded-xl font-bold text-xs transition text-choco/70 hover:text-choco';
+      }
+    }
+
+    function getUserDisplayInfo() {
+      const rawName = document.getElementById('userNameInput').value.trim();
+      const privacy = document.querySelector('input[name="privacyMode"]:checked').value;
+      const isSecret = privacy === 'secret';
+      const displayName = isSecret
+        ? (rawName ? `Bí mật (${rawName.charAt(0)}***)` : 'Một tâm hồn ẩn danh')
+        : (rawName || 'Một người bạn dễ thương');
+      return { displayName, isSecret };
+    }
+
+    function releaseSadness(actionType) {
+      const input = document.getElementById('ventInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const { displayName, isSecret } = getUserDisplayInfo();
+      const wrapper = document.getElementById('ventBoxWrapper');
+      const replyBox = document.getElementById('comfortReply');
+
+      playSound('magic');
+
+      if (actionType === 'dissolve') {
+        wrapper.classList.add('dissolving');
+        setTimeout(() => {
+          input.value = '';
+          wrapper.classList.remove('dissolving');
+          replyBox.innerText = COMFORT_MESSAGES[Math.floor(Math.random() * COMFORT_MESSAGES.length)];
+          replyBox.classList.remove('hidden');
+        }, 900);
+      } else {
+        const items = getStoredItems();
+        items.unshift({
+          type: 'vent',
+          author: displayName,
+          isSecret,
+          content: text,
+          hugs: 1,
+          color: '#AED9E0'
+        });
+        saveStoredItems(items);
+        input.value = '';
+        replyBox.innerText = `🫂 Tâm sự của "${displayName}" đã được lưu vào lọ & góc đồng cảm để mọi người cùng gửi cái ôm ấm áp!`;
+        replyBox.classList.remove('hidden');
+        renderSharedItems(true);
+      }
+    }
+
+    function addSweetCandy() {
+      const input = document.getElementById('candyInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const { displayName, isSecret } = getUserDisplayInfo();
+      const items = getStoredItems();
+      const randomColor = STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)];
+      items.unshift({
+        type: 'candy',
+        author: displayName,
+        isSecret,
+        content: text,
+        hugs: 1,
+        color: randomColor
+      });
+      saveStoredItems(items);
+      input.value = '';
+      playSound('magic');
+      renderSharedItems(true);
+    }
+
+    function sendHug(index) {
+      const items = getStoredItems();
+      if (items[index]) {
+        items[index].hugs = (items[index].hugs || 0) + 1;
+        saveStoredItems(items);
+        playSound('magic');
+        renderSharedItems(false);
+      }
+    }
+
+    function previewStarInJar(index) {
+      const items = getStoredItems();
+      const item = items[index];
+      if (!item) return;
+      playSound('magic');
+      const previewEl = document.getElementById('starPreviewText');
+      const icon = item.type === 'candy' ? '⭐' : '🌧️';
+      previewEl.innerText = `${icon} ${item.author}: "${item.content}"`;
+    }
+
+    // Vẽ các ngôi sao giấy phồng cute trong chiếc lọ thủy tinh + danh sách bên dưới
+    function renderSharedItems(animateNewest = false) {
+      const items = getStoredItems();
+      const container = document.getElementById('sharedList');
+      const jarInside = document.getElementById('starJarInside');
+      document.getElementById('jarCounter').innerText = `${items.length} ngôi sao`;
+
+      // Render các ngôi sao giấy bên trong chiếc lọ thủy tinh (tối đa 28 ngôi sao hiển thị trong lọ)
+      const visibleStars = items.slice(0, 28);
+      jarInside.innerHTML = visibleStars.map((item, idx) => {
+        const starColor = item.color || STAR_COLORS[idx % STAR_COLORS.length];
+        const rot = ((idx * 37) % 50) - 25;
+        const isNewest = animateNewest && idx === 0;
+        const animClass = isNewest ? 'star-drop-anim' : '';
+        return `
+          <button onclick="previewStarInJar(${idx})"
+                  title="${item.author}: ${item.content}"
+                  style="--star-rot: ${rot}deg; transform: rotate(${rot}deg);"
+                  class="${animClass} w-7 h-7 hover:scale-125 transition focus:outline-none">
+            <svg viewBox="0 0 40 40" class="w-full h-full drop-shadow-sm">
+              <path d="M 20 3 C 22 3, 25 11, 27 12 C 29 13, 37 14, 37 16 C 37 18, 31 24, 31 26 C 31 28, 33 36, 31 37 C 29 38, 22 33, 20 33 C 18 33, 11 38, 9 37 C 7 36, 9 28, 9 26 C 9 24, 3 18, 3 16 C 3 14, 11 13, 13 12 C 15 11, 18 3, 20 3 Z"
+                    fill="${starColor}" stroke="#543D46" stroke-width="3" stroke-linejoin="round" />
+              <circle cx="15" cy="18" r="1.5" fill="#543D46" />
+              <circle cx="25" cy="18" r="1.5" fill="#543D46" />
+              <path d="M 18 22 Q 20 24 22 22" fill="none" stroke="#543D46" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+          </button>
+        `;
+      }).join('');
+
+      // Render danh sách thẻ bên dưới
+      container.innerHTML = items.map((item, idx) => {
+        const isCandy = item.type === 'candy';
+        const bgClass = isCandy ? 'bg-pinksoft/55' : 'bg-babyblue/30';
+        const badgeIcon = isCandy ? '⭐ Ngôi sao của:' : '🌧️ Nỗi lòng của:';
+        const privacyTag = item.isSecret ? '🤫 Bí mật' : '🌟 Công khai';
+
+        return `
+          <div class="${bgClass} border-2 border-choco rounded-2xl p-3 text-xs">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-choco">${badgeIcon} ${item.author}</span>
+              <span class="text-[10px] bg-white/85 px-2 py-0.5 rounded-full border border-choco">${privacyTag}</span>
+            </div>
+            <p class="text-choco/90 mb-2 leading-relaxed">${item.content}</p>
+            <div class="flex justify-end">
+              <button onclick="sendHug(${idx})" class="bg-white hover:bg-butter px-2.5 py-1 rounded-full border border-choco font-bold text-[11px] transition">
+                🫂 Gửi cái ôm (${item.hugs || 1})
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // XUẤT ẢNH STORY 9:16
+    function downloadStoryCard() {
+      const canvas = document.getElementById('storyCanvas');
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = '#FFDCE8';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.strokeStyle = '#543D46';
+      ctx.lineWidth = 10;
+      ctx.beginPath();
+      ctx.roundRect(90, 280, 900, 1300, 60);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#543D46';
+      ctx.font = 'italic bold 48px "Playfair Display", "Cormorant Infant", serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('✦ Hạnh phúc ngoài khuôn mẫu ✦', 540, 420);
+
+      // Wrap quote text
+      ctx.font = '54px "Patrick Hand", cursive';
+      const words = (`"${currentQuote.text}"`).split(' ');
+      let line = '';
+      let y = 780;
+      for (let i = 0; i < words.length; i++) {
+        const testLine = line + words[i] + ' ';
+        if (ctx.measureText(testLine).width > 740 && i > 0) {
+          ctx.fillText(line, 540, y);
+          line = words[i] + ' ';
+          y += 80;
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line, 540, y);
+
+      ctx.font = 'italic 32px Quicksand, sans-serif';
+      ctx.fillText('Mong rằng bạn sẽ nhìn thế giới bằng ánh mắt dịu dàng hơn ✨', 540, 1460);
+
+      const link = document.createElement('a');
+      link.download = 'hanh-phuc-ngoai-khuon-mau.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // Khởi tạo ban đầu
+    initClawPile();
+    renderSharedItems(false);
+  </script>
+</body>
+</html>
